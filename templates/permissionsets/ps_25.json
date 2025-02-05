@@ -1,0 +1,9 @@
+{
+    "Name": "ps_25",
+    "Description": "",
+    "SessionDuration": "PT1H",
+    "ManagedPolicies": [
+        "arn:aws:iam::aws:policy/AWSSupportAccess"
+    ],
+    "CustomPolicy": ""
+}
