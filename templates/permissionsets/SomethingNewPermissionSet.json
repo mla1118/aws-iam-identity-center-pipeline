@@ -1,0 +1,9 @@
+{
+    "Name": "SomethingNewPermissionSet",
+    "Description": "something new permission set",
+    "SessionDuration": "PT1H",
+    "ManagedPolicies": [
+        "arn:aws:iam::aws:policy/AWSSupportAccess"
+    ],
+    "CustomPolicy": "{\n        \"Version\": \"2012-10-17\",\n        \"Statement\": [\n            {\n                \"Effect\": \"Allow\",\n                \"Action\": [\n                    \"access-analyzer:StartPolicyGeneration\",\n                    \"access-analyzer:CancelPolicyGeneration\",\n                    \"aws-marketplace:ViewSubscriptions\",\n                    \"cloudtrail:List*\",\n                    \"cloudtrail:GetTrail\",\n                    \"compute-optimizer:Describe*\",\n                    \"network-firewall:List*\",\n                    \"network-firewall:Describe*\",\n                    \"elasticmapreduce:GetAutoTerminationPolicy\",\n                    \"quicksight:Get*\",\n                    \"quicksight:List*\",\n                    \"workspaces:List*\",\n                    \"compute-optimizer:Get*\",\n                    \"kms:Decrypt\",\n                    \"secretsmanager:Get*\"\n                ],\n                \"Resource\": \"*\"\n            },\n            {\n                \"Action\": \"iam:PassRole\",\n                \"Condition\": {\n                    \"StringEquals\": {\n                        \"iam:PassedToService\": \"access-analyzer.amazonaws.com\"\n                    }\n                },\n                \"Effect\": \"Allow\",\n                \"Resource\": \"arn:aws:iam::*:role/service-role/AccessAnalyzerMonitorServiceRole_TFManaged\"\n            },\n            {\n                \"Effect\": \"Deny\",\n                \"Action\": [\n                    \"macie2:*\"\n                ],\n                \"Resource\": \"*\"\n            }\n        ]\n    }\n"
+}

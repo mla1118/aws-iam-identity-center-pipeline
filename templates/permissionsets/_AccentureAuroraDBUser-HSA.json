@@ -1,0 +1,7 @@
+{
+    "Name": "_AccentureAuroraDBUser-HSA",
+    "Description": "This policy allows the user HSA to connect to the RDS database. ",
+    "SessionDuration": "PT1H",
+    "ManagedPolicies": [],
+    "CustomPolicy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"rds-db:connect\"],\"Resource\":[\"arn:aws:rds-db:*:*:dbuser:*/HSA\"]}]}"
+}

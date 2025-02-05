@@ -1,0 +1,10 @@
+{
+    "Name": "SSOAdmin",
+    "Description": "Allows users full access to the identity center",
+    "SessionDuration": "PT1H",
+    "ManagedPolicies": [
+        "arn:aws:iam::aws:policy/AWSCloudTrail_FullAccess",
+        "arn:aws:iam::aws:policy/AWSSSODirectoryAdministrator"
+    ],
+    "CustomPolicy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"Statement1\",\"Effect\":\"Allow\",\"Action\":[\"config:DescribeConfigurationRecorderStatus\",\"config:DescribeConfigurationRecorders\",\"sso:ListInstances\"],\"Resource\":[\"*\"]}]}"
+}

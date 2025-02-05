@@ -1,0 +1,19 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Statement1",
+            "Effect": "Allow",
+            "Action": [
+                "quicksight:DescribeDashboard",
+                "quicksight:ListDashboards",
+                "quicksight:UpdateDashboard",
+                "quicksight:DescribeAnalysis",
+                "quicksight:ListAnalyses",
+                "quicksight:UpdateAnalysis",
+                "quicksight:CreateAnalysis"
+            ],
+            "Resource": "*"
+        }
+    ]
+}

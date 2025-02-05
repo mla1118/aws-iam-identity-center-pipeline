@@ -1,0 +1,10 @@
+{
+    "Name": "ReadOnlyAccess",
+    "Description": "Allows user to have read only access to AWS services",
+    "SessionDuration": "PT1H",
+    "ManagedPolicies": [
+        "arn:aws:iam::aws:policy/AWSSupportAccess",
+        "arn:aws:iam::aws:policy/ReadOnlyAccess"
+    ],
+    "CustomPolicy": ""
+}

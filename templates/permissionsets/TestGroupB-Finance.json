@@ -1,0 +1,9 @@
+{
+    "Name": "TestGroupB-Finance",
+    "Description": "Allows users access to read only in the Billing console",
+    "SessionDuration": "PT1H",
+    "ManagedPolicies": [
+        "arn:aws:iam::aws:policy/AWSBillingReadOnlyAccess"
+    ],
+    "CustomPolicy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"Statement1\",\"Effect\":\"Deny\",\"Action\":[\"freetier:*\",\"ce:ListCostAllocationTags\",\"ce:ListTagsForResource\",\"billingconductor:*\",\"cost-optimization-hub:*\"],\"Resource\":\"*\"}]}"
+}

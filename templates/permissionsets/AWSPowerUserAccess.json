@@ -1,0 +1,9 @@
+{
+    "Name": "AWSPowerUserAccess",
+    "Description": "Provides full access to AWS services and resources, but does not allow management of Users and groups",
+    "SessionDuration": "PT1H",
+    "ManagedPolicies": [
+        "arn:aws:iam::aws:policy/PowerUserAccess"
+    ],
+    "CustomPolicy": ""
+}

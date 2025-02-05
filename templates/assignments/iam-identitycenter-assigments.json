@@ -1,43 +1,166 @@
 {
     "Assignments": [
         {
-            "SID": "SecurityAssignment",
+            "SID": "test_group",
             "Target": [
-                "ou-name-1:ou-xxxx-yyyyyyyy",
-                "ou-name-2:ou-zzzz-xxxxxxxx",
-                "account-name:123456789012"
+                "account_name:905418063764"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalId": "AD_SECURITY_ADMIN@domain.internal",
-            "PermissionSetName": "SecurityEngineer"
+            "PrincipalId": "0801a3a0-8041-70d2-2fb0-8aa7da6d6b0f",
+            "PermissionSetName": "ps_4"
         },
         {
-            "SID": "PersonalAdmin",
+            "SID": "sso_user_admin_group",
             "Target": [
-                "Root"
-            ],
-            "PrincipalType": "USER",
-            "PrincipalId": "my_user@domain.internal",
-            "PermissionSetName": "ProductOwner"
-        },
-        {
-            "SID": "Specificaccounts",
-            "Target": [
-                "account_name_2:098765432101",
-                "account_name_3:123456789012"
+                "account_name:905418063764"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalId": "AD_PRODUCT_OWNER@domain.internal",
-            "PermissionSetName": "ProductOwner"
+            "PrincipalId": "08913390-c0e1-7049-edf0-fbd0119dc055",
+            "PermissionSetName": "ps_4"
         },
         {
-            "SID": "DatabaseBaseline",
+            "SID": "anothertestgroupformeforme",
             "Target": [
-                "ou_name_recursive:ou-xxxx-yyyyyyyy:*"
+                "account_name:905418063764"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalId": "AD_DB_ADMIN@domain.internal",
-            "PermissionSetName": "DatabaseAdministrator"
+            "PrincipalId": "2831d300-30d1-7025-91f2-4f7325919293",
+            "PermissionSetName": "ps_4"
+        },
+        {
+            "SID": "test_group",
+            "Target": [
+                "account_name:090930025988"
+            ],
+            "PrincipalType": "GROUP",
+            "PrincipalId": "0801a3a0-8041-70d2-2fb0-8aa7da6d6b0f",
+            "PermissionSetName": "ps_4"
+        },
+        {
+            "SID": "test_group",
+            "Target": [
+                "account_name:588738589111"
+            ],
+            "PrincipalType": "GROUP",
+            "PrincipalId": "0801a3a0-8041-70d2-2fb0-8aa7da6d6b0f",
+            "PermissionSetName": "ps_4"
+        },
+        {
+            "SID": "test_group",
+            "Target": [
+                "account_name:892267105701"
+            ],
+            "PrincipalType": "GROUP",
+            "PrincipalId": "0801a3a0-8041-70d2-2fb0-8aa7da6d6b0f",
+            "PermissionSetName": "ps_4"
+        },
+        {
+            "SID": "group_4",
+            "Target": [
+                "account_name:100935367087"
+            ],
+            "PrincipalType": "GROUP",
+            "PrincipalId": "d8e1a370-a0e1-7069-0538-38cc67268ddc",
+            "PermissionSetName": "ps_4"
+        },
+        {
+            "SID": "workspace_group",
+            "Target": [
+                "account_name:892267105701"
+            ],
+            "PrincipalType": "GROUP",
+            "PrincipalId": "78519350-50b1-706f-18bb-7b3237eab8f8",
+            "PermissionSetName": "TestPermissionSetForTesting"
+        },
+        {
+            "SID": "test_group",
+            "Target": [
+                "account_name:954158699617"
+            ],
+            "PrincipalType": "GROUP",
+            "PrincipalId": "0801a3a0-8041-70d2-2fb0-8aa7da6d6b0f",
+            "PermissionSetName": "TestPermissionSetForTesting"
+        },
+        {
+            "SID": "ConsortiumSSOUserAdmin",
+            "Target": [
+                "account_name:100935367087"
+            ],
+            "PrincipalType": "GROUP",
+            "PrincipalId": "58e1c3a0-60b1-70ea-97b0-a48deb4f42dd",
+            "PermissionSetName": "ConsortiumSSOUserAdmin"
+        },
+        {
+            "SID": "AWSServiceCatalogAdmins",
+            "Target": [
+                "account_name:100935367087"
+            ],
+            "PrincipalType": "GROUP",
+            "PrincipalId": "92677928a8-6e6c0baa-e969-45c1-b480-c7512d43cc6e",
+            "PermissionSetName": "AWSServiceCatalogAdminFullAccess"
+        },
+        {
+            "SID": "ConsoritumDataLakeQueries",
+            "Target": [
+                "account_name:100935367087"
+            ],
+            "PrincipalType": "GROUP",
+            "PrincipalId": "b8118350-10e1-703c-f98a-25d480f4a53f",
+            "PermissionSetName": "ConsortiumDataLakeQueryAccess"
+        },
+        {
+            "SID": "david-test-to-be-deleted",
+            "Target": [
+                "account_name:100935367087"
+            ],
+            "PrincipalType": "GROUP",
+            "PrincipalId": "98c193d0-c0c1-70f2-ff1f-f83dbd2c668a",
+            "PermissionSetName": "AWS_ReadOnlyAccess"
+        },
+        {
+            "SID": "AWS_ReadOnlyAccess",
+            "Target": [
+                "account_name:100935367087"
+            ],
+            "PrincipalType": "GROUP",
+            "PrincipalId": "48e11330-3011-708b-6a03-86d750beb575",
+            "PermissionSetName": "AWS_ReadOnlyAccess"
+        },
+        {
+            "SID": "TestGroupA- Security",
+            "Target": [
+                "account_name:100935367087"
+            ],
+            "PrincipalType": "GROUP",
+            "PrincipalId": "48f1b320-b0f1-70d8-3ec6-291afa641bef",
+            "PermissionSetName": "TestGroupA-Security"
+        },
+        {
+            "SID": "ConsortiumMPAFinanceSupportCenter",
+            "Target": [
+                "account_name:100935367087"
+            ],
+            "PrincipalType": "GROUP",
+            "PrincipalId": "a8a183a0-0021-7081-f337-bf8646a82480",
+            "PermissionSetName": "ConsortiumFinanceSupportCenter"
+        },
+        {
+            "SID": "TestSSOPermissions",
+            "Target": [
+                "account_name:100935367087"
+            ],
+            "PrincipalType": "GROUP",
+            "PrincipalId": "b8917320-5011-7008-eb6d-ebc63a88408f",
+            "PermissionSetName": "SSO_User_Admin"
+        },
+        {
+            "SID": "SSO_User_Admin",
+            "Target": [
+                "account_name:100935367087"
+            ],
+            "PrincipalType": "GROUP",
+            "PrincipalId": "a8f113f0-e031-70fe-ddcd-d4c704d2251b",
+            "PermissionSetName": "SSO_User_Admin"
         }
     ]
 }

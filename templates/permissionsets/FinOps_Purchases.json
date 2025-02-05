@@ -1,0 +1,7 @@
+{
+    "Name": "FinOps_Purchases",
+    "Description": "Allows a user to purchase RIs and Savings Plans",
+    "SessionDuration": "PT1H",
+    "ManagedPolicies": [],
+    "CustomPolicy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"ec2:PurchaseReservedInstancesOffering\",\"ec2:DescribeReservedInstancesOfferings\",\"ec2:DescribeReservedInstances\",\"savingsplans:CreateSavingsPlan\",\"savingsplans:DescribeSavingsPlansOfferings\",\"savingsplans:ListTagsForResource\",\"savingsplans:DescribeSavingsPlans\",\"savingsplans:DescribeSavingsPlanRates\",\"savingsplans:DescribeSavingsPlansOfferingRates\",\"ec2:DescribeReservedInstancesListings\",\"ec2:AcceptReservedInstancesExchangeQuote\",\"ec2:CreateReservedInstancesListing\",\"ec2:DeleteQueuedReservedInstances\",\"ec2:CancelReservedInstancesListing\",\"ec2:ModifyReservedInstances\",\"ec2:DescribeReservedInstancesModifications\",\"ec2:GetReservedInstancesExchangeQuote\",\"ec2:DescribeInstanceTypes\",\"ec2:DescribeInstanceTypeOfferings\"],\"Resource\":\"*\"},{\"Effect\":\"Deny\",\"Action\":[\"ec2:RunInstances\",\"ec2:TerminateInstances\",\"ec2:StartInstances\",\"ec2:StopInstances\"],\"Resource\":\"*\"}]}"
+}

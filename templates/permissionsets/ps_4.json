@@ -1,0 +1,7 @@
+{
+    "Name": "ps_4",
+    "Description": "testing",
+    "SessionDuration": "PT1H",
+    "ManagedPolicies": [],
+    "CustomPolicy": "{\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n            \"Effect\": \"Deny\",\n            \"Action\": [\n                \"sso-directory:DeleteUser\",\n                \"sso-directory:DeleteProvisioningTenant\",\n                \"sso-directory:DeleteBearerToken\"\n            ],\n            \"Resource\": \"*\"\n        }\n    ]\n}"
+}

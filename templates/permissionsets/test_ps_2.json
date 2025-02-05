@@ -1,0 +1,9 @@
+{
+    "Name": "test_ps_2",
+    "Description": "testing script-to be deleted",
+    "SessionDuration": "PT1H",
+    "ManagedPolicies": [
+        "arn:aws:iam::aws:policy/AdministratorAccess"
+    ],
+    "CustomPolicy": "{\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n            \"Effect\": \"Deny\",\n            \"Action\": [\n                \"sso-directory:DeleteUser\",\n                \"sso-directory:DeleteProvisioningTenant\",\n                \"sso-directory:DeleteBearerToken\"\n            ],\n            \"Resource\": \"*\"\n        }\n    ]\n}"
+}

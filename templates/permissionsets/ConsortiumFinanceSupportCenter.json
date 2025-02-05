@@ -1,0 +1,9 @@
+{
+    "Name": "ConsortiumFinanceSupportCenter",
+    "Description": "Allows Consortium Finance team to access the Support console.",
+    "SessionDuration": "PT1H",
+    "ManagedPolicies": [
+        "arn:aws:iam::aws:policy/AWSSupportAppReadOnlyAccess"
+    ],
+    "CustomPolicy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"Statement1\",\"Effect\":\"Allow\",\"Action\":[\"support:CreateCase\",\"support:DescribeCases\",\"support:DescribeAttachment\",\"support:AddCommunicationToCase\",\"support:ResolveCase\",\"support:DescribeSupportLevel\",\"support:DescribeIssueTypes\",\"support:DescribeServices\",\"support:DescribeSeverityLevels\",\"support:DescribeCreateCaseOptions\",\"support:AddAttachmentsToSet\",\"support:DescribeSupportedLanguages\",\"support:SearchForCases\"],\"Resource\":\"*\"}]}"
+}
