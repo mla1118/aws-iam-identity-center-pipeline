@@ -188,7 +188,8 @@ def lookup_principal_id(principalName, principalType):
                     },
                 ]
             )
-            return response['Groups'][0]['GroupId']
+            groupId = getGroupId(principalName)
+            return groupId
         if principalType == 'USER':
             response = client.list_users(
                 IdentityStoreId=identitystore,
@@ -219,6 +220,28 @@ def resolve_targets(eachCurrentAssignments):
         log.error(f"[SID: {eachCurrentAssignments['SID']}] It was not possible to resolve the targets from assignment. Reason: " + str(error))
         log.error(traceback.format_exc())
 
+def getGroupId(group_name):
+    '''
+    Retrieves the ID of given group
+
+    Arguments:
+    - group_name -> name of group to find
+
+    Returns:
+    - ID of group found, None if no group found
+    '''
+    identity_store_client = boto3.client('identitystore')
+    group_id = None
+    paginator = identity_store_client.get_paginator('list_groups')
+    page_iterator = paginator.paginate(IdentityStoreId=identitystore)
+
+    for page in page_iterator:
+        for group in page['Groups']:
+            if group['DisplayName'] == group_name:
+                group_id = group['GroupId']
+                break
+    
+    return group_id
 
 def create_assignment_file(permissionSetsArn,repositoryAssignments):
     log.info('Creating assignment file')
