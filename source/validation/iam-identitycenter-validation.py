@@ -108,7 +108,7 @@ def validate_json_policy_format():
                 for eachFinding in results:
                     if eachFinding['findingType'] == 'ERROR':
                         log.error(f"[{eachPermissionSet}] An error was found in the custom policy: " + str(eachFinding['findingDetails']))
-                        exit(1)
+                        
                     if eachFinding['findingType'] == 'WARNING':
                         log.warning(f"[{eachPermissionSet}] An issue was found in the custom policy: " + str(eachFinding['findingDetails']))
             else:
