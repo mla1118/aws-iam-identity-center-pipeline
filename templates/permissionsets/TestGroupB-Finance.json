@@ -5,5 +5,21 @@
     "ManagedPolicies": [
         "arn:aws:iam::aws:policy/AWSBillingReadOnlyAccess"
     ],
-    "CustomPolicy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"Statement1\",\"Effect\":\"Deny\",\"Action\":[\"freetier:*\",\"ce:ListCostAllocationTags\",\"ce:ListTagsForResource\",\"billingconductor:*\",\"cost-optimization-hub:*\"],\"Resource\":\"*\"}]}"
+    "CustomPolicy": {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "Statement1",
+                "Effect": "Deny",
+                "Action": [
+                    "freetier:*",
+                    "ce:ListCostAllocationTags",
+                    "ce:ListTagsForResource",
+                    "billingconductor:*",
+                    "cost-optimization-hub:*"
+                ],
+                "Resource": "*"
+            }
+        ]
+    }
 }

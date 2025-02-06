@@ -3,5 +3,83 @@
     "Description": "created to test how to attach an inline policy from a document in CLI",
     "SessionDuration": "PT1H",
     "ManagedPolicies": [],
-    "CustomPolicy": "{\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n            \"Effect\": \"Allow\",\n            \"Action\": [\n                \"ec2:Describe*\",\n                \"ssm:DescribeSessions\",\n                \"ssm:GetConnectionStatus\",\n                \"ssm:DescribeInstanceInformation\",\n                \"ssm:DescribeInstanceProperties\"\n            ],\n            \"Resource\": \"*\"\n        },\n        {\n            \"Sid\": \"SessionAccess\",\n            \"Effect\": \"Allow\",\n            \"Action\": [\n                \"ssm:StartSession\"\n            ],\n            \"Resource\": \"*\",\n            \"Condition\": {\n                \"StringLike\": {\n                    \"ssm:resourceTag/BatchAccess\": [\n                        \"True\"\n                    ]\n                }\n            }\n        },\n        {\n            \"Sid\": \"SSMSessionDocumentAccess\",\n            \"Effect\": \"Allow\",\n            \"Action\": [\n                \"ssm:StartSession\"\n            ],\n            \"Resource\": [\n                \"arn:aws:ssm:us-west-2:*:document/SSM-SessionManagerRunShell\"\n            ]\n        },\n        {\n            \"Sid\": \"SessionAccess2\",\n            \"Effect\": \"Allow\",\n            \"Action\": [\n                \"ssm:TerminateSession\",\n                \"ssm:ResumeSession\"\n            ],\n            \"Resource\": [\n                \"arn:aws:ssm:*:*:session/${aws:username}-*\"\n            ]\n        },\n        {\n            \"Sid\": \"S3Access\",\n            \"Effect\": \"Allow\",\n            \"Action\": [\n                \"s3:Get*\",\n                \"s3:List*\",\n                \"s3:PutObject\",\n                \"s3:DeleteObject\"\n            ],\n            \"Resource\": [\n                \"arn:aws:s3:::*-docrepo*\",\n                \"arn:aws:s3:::calsaws-analytics*\"\n            ]\n        },\n        {\n            \"Sid\": \"EMRAccess\",\n            \"Effect\": \"Allow\",\n            \"Action\": [\n                \"emr-serverless:Get*\",\n                \"emr-serverless:List*\",\n                \"emr-serverless:CancelJobRun\",\n                \"elasticmapreduce:Describe*\",\n                \"elasticmapreduce:GetBlockPublicAccessConfiguration\",\n                \"elasticmapreduce:CreateStudioPresignedUrl\"\n            ],\n            \"Resource\": \"*\"\n        }\n    ]\n}\n"
+    "CustomPolicy": {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "ec2:Describe*",
+                    "ssm:DescribeSessions",
+                    "ssm:GetConnectionStatus",
+                    "ssm:DescribeInstanceInformation",
+                    "ssm:DescribeInstanceProperties"
+                ],
+                "Resource": "*"
+            },
+            {
+                "Sid": "SessionAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "ssm:StartSession"
+                ],
+                "Resource": "*",
+                "Condition": {
+                    "StringLike": {
+                        "ssm:resourceTag/BatchAccess": [
+                            "True"
+                        ]
+                    }
+                }
+            },
+            {
+                "Sid": "SSMSessionDocumentAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "ssm:StartSession"
+                ],
+                "Resource": [
+                    "arn:aws:ssm:us-west-2:*:document/SSM-SessionManagerRunShell"
+                ]
+            },
+            {
+                "Sid": "SessionAccess2",
+                "Effect": "Allow",
+                "Action": [
+                    "ssm:TerminateSession",
+                    "ssm:ResumeSession"
+                ],
+                "Resource": [
+                    "arn:aws:ssm:*:*:session/${aws:username}-*"
+                ]
+            },
+            {
+                "Sid": "S3Access",
+                "Effect": "Allow",
+                "Action": [
+                    "s3:Get*",
+                    "s3:List*",
+                    "s3:PutObject",
+                    "s3:DeleteObject"
+                ],
+                "Resource": [
+                    "arn:aws:s3:::*-docrepo*",
+                    "arn:aws:s3:::calsaws-analytics*"
+                ]
+            },
+            {
+                "Sid": "EMRAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "emr-serverless:Get*",
+                    "emr-serverless:List*",
+                    "emr-serverless:CancelJobRun",
+                    "elasticmapreduce:Describe*",
+                    "elasticmapreduce:GetBlockPublicAccessConfiguration",
+                    "elasticmapreduce:CreateStudioPresignedUrl"
+                ],
+                "Resource": "*"
+            }
+        ]
+    }
 }

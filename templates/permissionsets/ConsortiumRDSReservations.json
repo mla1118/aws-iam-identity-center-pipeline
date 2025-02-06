@@ -7,5 +7,32 @@
         "arn:aws:iam::aws:policy/AWSSupportAccess",
         "arn:aws:iam::aws:policy/AmazonRDSReadOnlyAccess"
     ],
-    "CustomPolicy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"Statement1\",\"Effect\":\"Allow\",\"Action\":[\"ce:GetReservationPurchaseRecommendation\",\"ce:GetReservationCoverage\",\"ce:GetReservationUtilization\",\"ce:GetCost*\",\"ce:GetTags\",\"ce:GetUsageForecast\",\"ce:GetDimensionValues\",\"ce:DescribeReport\",\"support:Describe*\",\"support:SearchForCases\",\"rds:*Tags*\",\"rds:*Reserved*\",\"aws-portal:View*\",\"aws-portal:Get*\",\"bcm-data-exports:Get*\",\"bcm-data-exports:List*\"],\"Resource\":\"*\"}]}"
+    "CustomPolicy": {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "Statement1",
+                "Effect": "Allow",
+                "Action": [
+                    "ce:GetReservationPurchaseRecommendation",
+                    "ce:GetReservationCoverage",
+                    "ce:GetReservationUtilization",
+                    "ce:GetCost*",
+                    "ce:GetTags",
+                    "ce:GetUsageForecast",
+                    "ce:GetDimensionValues",
+                    "ce:DescribeReport",
+                    "support:Describe*",
+                    "support:SearchForCases",
+                    "rds:*Tags*",
+                    "rds:*Reserved*",
+                    "aws-portal:View*",
+                    "aws-portal:Get*",
+                    "bcm-data-exports:Get*",
+                    "bcm-data-exports:List*"
+                ],
+                "Resource": "*"
+            }
+        ]
+    }
 }

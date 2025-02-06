@@ -5,5 +5,47 @@
     "ManagedPolicies": [
         "arn:aws:iam::aws:policy/AWSSupportAccess"
     ],
-    "CustomPolicy": "{\n        \"Version\": \"2012-10-17\",\n        \"Statement\": [\n            {\n                \"Effect\": \"Allow\",\n                \"Action\": [\n                    \"access-analyzer:StartPolicyGeneration\",\n                    \"access-analyzer:CancelPolicyGeneration\",\n                    \"aws-marketplace:ViewSubscriptions\",\n                    \"cloudtrail:List*\",\n                    \"cloudtrail:GetTrail\",\n                    \"compute-optimizer:Describe*\",\n                    \"network-firewall:List*\",\n                    \"network-firewall:Describe*\",\n                    \"elasticmapreduce:GetAutoTerminationPolicy\",\n                    \"quicksight:Get*\",\n                    \"quicksight:List*\",\n                    \"workspaces:List*\",\n                    \"compute-optimizer:Get*\",\n                    \"kms:Decrypt\",\n                    \"secretsmanager:Get*\"\n                ],\n                \"Resource\": \"*\"\n            },\n            {\n                \"Action\": \"iam:PassRole\",\n                \"Condition\": {\n                    \"StringEquals\": {\n                        \"iam:PassedToService\": \"access-analyzer.amazonaws.com\"\n                    }\n                },\n                \"Effect\": \"Allow\",\n                \"Resource\": \"arn:aws:iam::*:role/service-role/AccessAnalyzerMonitorServiceRole_TFManaged\"\n            },\n            {\n                \"Effect\": \"Deny\",\n                \"Action\": [\n                    \"macie2:*\"\n                ],\n                \"Resource\": \"*\"\n            }\n        ]\n    }\n"
+    "CustomPolicy": {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "access-analyzer:StartPolicyGeneration",
+                    "access-analyzer:CancelPolicyGeneration",
+                    "aws-marketplace:ViewSubscriptions",
+                    "cloudtrail:List*",
+                    "cloudtrail:GetTrail",
+                    "compute-optimizer:Describe*",
+                    "network-firewall:List*",
+                    "network-firewall:Describe*",
+                    "elasticmapreduce:GetAutoTerminationPolicy",
+                    "quicksight:Get*",
+                    "quicksight:List*",
+                    "workspaces:List*",
+                    "compute-optimizer:Get*",
+                    "kms:Decrypt",
+                    "secretsmanager:Get*"
+                ],
+                "Resource": "*"
+            },
+            {
+                "Action": "iam:PassRole",
+                "Condition": {
+                    "StringEquals": {
+                        "iam:PassedToService": "access-analyzer.amazonaws.com"
+                    }
+                },
+                "Effect": "Allow",
+                "Resource": "arn:aws:iam::*:role/service-role/AccessAnalyzerMonitorServiceRole_TFManaged"
+            },
+            {
+                "Effect": "Deny",
+                "Action": [
+                    "macie2:*"
+                ],
+                "Resource": "*"
+            }
+        ]
+    }
 }

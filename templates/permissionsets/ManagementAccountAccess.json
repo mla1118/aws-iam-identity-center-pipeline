@@ -5,5 +5,125 @@
     "ManagedPolicies": [
         "arn:aws:iam::aws:policy/ReadOnlyAccess"
     ],
-    "CustomPolicy": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"ServicesAllowed\",\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"cloudformation:*\",\n        \"config:*\",\n        \"controltower:*\",\n        \"iam:GetRole\",\n        \"iam:ListPolicies\",\n        \"iam:ListRoles\",\n        \"ds:*\",\n        \"organizations:*\",\n        \"ram:EnableSharingWithAwsOrganization\",\n        \"servicecatalog:*\",\n        \"sso:*\",\n        \"sso-directory:*\",\n        \"ec2:EnableIpamOrganizationAdminAccount\"\n      ],\n      \"Resource\": \"*\"\n    },\n    {\n      \"Sid\": \"DenyBillingServices\",\n      \"Effect\": \"Deny\",\n      \"Action\": [\n        \"aws-portal:*\",\n        \"cur:*\",\n        \"ce:*\",\n        \"support:*\"\n      ],\n      \"Resource\": \"*\"\n    },\n    {\n      \"Sid\": \"AllowSLRCreate\",\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"iam:CreateServiceLinkedRole\",\n        \"iam:PutRolePolicy\"\n      ],\n      \"Resource\": \"arn:aws:iam::*:role/aws-service-role/*\",\n      \"Condition\": {\n        \"ForAnyValue:StringLike\": {\n          \"iam:AWSServiceName\": [\n            \"ram.amazonaws.com\"\n          ]\n        }\n      }\n    },\n    {\n      \"Sid\": \"RestrictedOrganizationsActions\",\n      \"Effect\": \"Deny\",\n      \"Action\": [\n        \"organizations:*Handshake*\",\n        \"organizations:EnableAllFeatures\",\n        \"organizations:InviteAccountToOrganization\",\n        \"organizations:LeaveOrganization\",\n        \"organizations:RemoveAccountFromOrganization\",\n        \"organizations:CreateOrganization\",\n        \"organizations:DeleteOrganization\"\n      ],\n      \"Resource\": \"*\"\n    },\n    {\n      \"Sid\": \"DenyActionsOnOrgRoot\",\n      \"Effect\": \"Deny\",\n      \"NotAction\": [\n        \"organizations:CreateAccount\",\n        \"organizations:CreateOrganizationalUnit\",\n        \"organizations:Describe*\",\n        \"organizations:List*\",\n        \"organizations:MoveAccount\",\n        \"organizations:*ablePolicyType\"\n      ],\n      \"Resource\": \"arn:aws:organizations::100935367087:root/*/*\"\n    },\n    {\n      \"Sid\": \"DenyMovingRootAccount\",\n      \"Effect\": \"Deny\",\n      \"Action\": \"organizations:MoveAccount\",\n      \"Resource\": \"arn:aws:organizations::100935367087:account/*/100935367087\"\n    },\n    {\n      \"Sid\": \"ProtectStacksAndSets\",\n      \"Effect\": \"Deny\",\n      \"Action\": [\n        \"cloudformation:*\"\n      ],\n      \"Resource\": [\n        \"arn:aws:cloudformation:*:100935367087:stack/mcm-*\",\n        \"arn:aws:cloudformation:*:100935367087:stackset/mcm-*\",\n        \"arn:aws:cloudformation:*:100935367087:stack/effectual-*\",\n        \"arn:aws:cloudformation:*:100935367087:stackset/effectual-*\",\n        \"arn:aws:cloudformation:*:100935367087:stack/StackSet-mcm-*\",\n        \"arn:aws:cloudformation:*:100935367087:stack/StackSet-effectual-*\"\n      ]\n    },\n    {\n      \"Sid\": \"DenyConfigDelete\",\n      \"Effect\": \"Deny\",\n      \"Action\": [\n        \"config:DeleteConfigurationRecorder\",\n        \"config:StopConfigurationRecorder\",\n        \"config:DeleteDeliveryChannel\"\n      ],\n      \"Resource\": \"*\"\n    },\n    {\n      \"Sid\": \"AllowS3Access\",\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"s3:*\"\n      ],\n      \"NotResource\": [\n        \"arn:aws:s3:::*jhc*\",\n        \"arn:aws:s3:::*effectual*\"\n      ]\n    }\n  ]\n}\n"
+    "CustomPolicy": {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "ServicesAllowed",
+                "Effect": "Allow",
+                "Action": [
+                    "cloudformation:*",
+                    "config:*",
+                    "controltower:*",
+                    "iam:GetRole",
+                    "iam:ListPolicies",
+                    "iam:ListRoles",
+                    "ds:*",
+                    "organizations:*",
+                    "ram:EnableSharingWithAwsOrganization",
+                    "servicecatalog:*",
+                    "sso:*",
+                    "sso-directory:*",
+                    "ec2:EnableIpamOrganizationAdminAccount"
+                ],
+                "Resource": "*"
+            },
+            {
+                "Sid": "DenyBillingServices",
+                "Effect": "Deny",
+                "Action": [
+                    "aws-portal:*",
+                    "cur:*",
+                    "ce:*",
+                    "support:*"
+                ],
+                "Resource": "*"
+            },
+            {
+                "Sid": "AllowSLRCreate",
+                "Effect": "Allow",
+                "Action": [
+                    "iam:CreateServiceLinkedRole",
+                    "iam:PutRolePolicy"
+                ],
+                "Resource": "arn:aws:iam::*:role/aws-service-role/*",
+                "Condition": {
+                    "ForAnyValue:StringLike": {
+                        "iam:AWSServiceName": [
+                            "ram.amazonaws.com"
+                        ]
+                    }
+                }
+            },
+            {
+                "Sid": "RestrictedOrganizationsActions",
+                "Effect": "Deny",
+                "Action": [
+                    "organizations:*Handshake*",
+                    "organizations:EnableAllFeatures",
+                    "organizations:InviteAccountToOrganization",
+                    "organizations:LeaveOrganization",
+                    "organizations:RemoveAccountFromOrganization",
+                    "organizations:CreateOrganization",
+                    "organizations:DeleteOrganization"
+                ],
+                "Resource": "*"
+            },
+            {
+                "Sid": "DenyActionsOnOrgRoot",
+                "Effect": "Deny",
+                "NotAction": [
+                    "organizations:CreateAccount",
+                    "organizations:CreateOrganizationalUnit",
+                    "organizations:Describe*",
+                    "organizations:List*",
+                    "organizations:MoveAccount",
+                    "organizations:*ablePolicyType"
+                ],
+                "Resource": "arn:aws:organizations::100935367087:root/*/*"
+            },
+            {
+                "Sid": "DenyMovingRootAccount",
+                "Effect": "Deny",
+                "Action": "organizations:MoveAccount",
+                "Resource": "arn:aws:organizations::100935367087:account/*/100935367087"
+            },
+            {
+                "Sid": "ProtectStacksAndSets",
+                "Effect": "Deny",
+                "Action": [
+                    "cloudformation:*"
+                ],
+                "Resource": [
+                    "arn:aws:cloudformation:*:100935367087:stack/mcm-*",
+                    "arn:aws:cloudformation:*:100935367087:stackset/mcm-*",
+                    "arn:aws:cloudformation:*:100935367087:stack/effectual-*",
+                    "arn:aws:cloudformation:*:100935367087:stackset/effectual-*",
+                    "arn:aws:cloudformation:*:100935367087:stack/StackSet-mcm-*",
+                    "arn:aws:cloudformation:*:100935367087:stack/StackSet-effectual-*"
+                ]
+            },
+            {
+                "Sid": "DenyConfigDelete",
+                "Effect": "Deny",
+                "Action": [
+                    "config:DeleteConfigurationRecorder",
+                    "config:StopConfigurationRecorder",
+                    "config:DeleteDeliveryChannel"
+                ],
+                "Resource": "*"
+            },
+            {
+                "Sid": "AllowS3Access",
+                "Effect": "Allow",
+                "Action": [
+                    "s3:*"
+                ],
+                "NotResource": [
+                    "arn:aws:s3:::*jhc*",
+                    "arn:aws:s3:::*effectual*"
+                ]
+            }
+        ]
+    }
 }

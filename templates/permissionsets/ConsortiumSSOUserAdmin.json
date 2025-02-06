@@ -6,5 +6,19 @@
         "arn:aws:iam::aws:policy/AWSSSOMemberAccountAdministrator",
         "arn:aws:iam::aws:policy/AWSSSOReadOnly"
     ],
-    "CustomPolicy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Deny\",\"Action\":[\"sso-directory:DeleteUser\",\"sso:Put*\",\"sso-directory:DeleteProvisioningTenant\",\"sso-directory:DeleteBearerToken\"],\"Resource\":\"*\"}]}"
+    "CustomPolicy": {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Deny",
+                "Action": [
+                    "sso-directory:DeleteUser",
+                    "sso:Put*",
+                    "sso-directory:DeleteProvisioningTenant",
+                    "sso-directory:DeleteBearerToken"
+                ],
+                "Resource": "*"
+            }
+        ]
+    }
 }

@@ -3,5 +3,56 @@
     "Description": "",
     "SessionDuration": "PT1H",
     "ManagedPolicies": [],
-    "CustomPolicy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"AllowUserToSeeBucketListInTheConsole\",\"Action\":[\"s3:ListAllMyBuckets\",\"s3:GetBucketLocation\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::calsaws-aws-user-extract-100935367087/benefitscal/*\"]},{\"Sid\":\"AllowRootListingOfBucket\",\"Action\":[\"s3:ListBucket\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::calsaws-aws-user-extract-100935367087\"],\"Condition\":{\"StringEquals\":{\"s3:prefix\":\"benefitscal/\",\"s3:delimiter\":\"/\"}}},{\"Sid\":\"s3FolderAccentureGrant\",\"Effect\":\"Allow\",\"Action\":[\"s3:*\"],\"Resource\":\"arn:aws:s3:::calsaws-aws-user-extract-100935367087/benefitscal/*\"},{\"Sid\":\"IAMSAMLProviderUpdateAction\",\"Effect\":\"Allow\",\"Action\":[\"iam:ListSAMLProviders\",\"iam:GetSAMLProvider\",\"iam:UpdateSAMLProvider\"],\"Resource\":[\"arn:aws:iam::*:saml-provider/AWSSSO_*\"]}]}"
+    "CustomPolicy": {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "AllowUserToSeeBucketListInTheConsole",
+                "Action": [
+                    "s3:ListAllMyBuckets",
+                    "s3:GetBucketLocation"
+                ],
+                "Effect": "Allow",
+                "Resource": [
+                    "arn:aws:s3:::calsaws-aws-user-extract-100935367087/benefitscal/*"
+                ]
+            },
+            {
+                "Sid": "AllowRootListingOfBucket",
+                "Action": [
+                    "s3:ListBucket"
+                ],
+                "Effect": "Allow",
+                "Resource": [
+                    "arn:aws:s3:::calsaws-aws-user-extract-100935367087"
+                ],
+                "Condition": {
+                    "StringEquals": {
+                        "s3:prefix": "benefitscal/",
+                        "s3:delimiter": "/"
+                    }
+                }
+            },
+            {
+                "Sid": "s3FolderAccentureGrant",
+                "Effect": "Allow",
+                "Action": [
+                    "s3:*"
+                ],
+                "Resource": "arn:aws:s3:::calsaws-aws-user-extract-100935367087/benefitscal/*"
+            },
+            {
+                "Sid": "IAMSAMLProviderUpdateAction",
+                "Effect": "Allow",
+                "Action": [
+                    "iam:ListSAMLProviders",
+                    "iam:GetSAMLProvider",
+                    "iam:UpdateSAMLProvider"
+                ],
+                "Resource": [
+                    "arn:aws:iam::*:saml-provider/AWSSSO_*"
+                ]
+            }
+        ]
+    }
 }

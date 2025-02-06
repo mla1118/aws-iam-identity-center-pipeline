@@ -1,9 +1,9 @@
 {
-    "Name": "ps_5",
-    "Description": "testing",
+    "Name": "ps_11",
+    "Description": "testing script",
     "SessionDuration": "PT1H",
     "ManagedPolicies": [
-        "arn:aws:iam::aws:policy/AmazonConnectReadOnlyAccess"
+        "arn:aws:iam::aws:policy/AdministratorAccess"
     ],
     "CustomPolicy": {
         "Version": "2012-10-17",

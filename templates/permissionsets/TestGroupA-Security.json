@@ -6,5 +6,27 @@
         "arn:aws:iam::aws:policy/AWSBillingReadOnlyAccess",
         "arn:aws:iam::aws:policy/job-function/Billing"
     ],
-    "CustomPolicy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"Statement1\",\"Effect\":\"Allow\",\"Action\":[\"ce:List*\",\"ce:Describe*\",\"ce:Get*\",\"ce:Create*\",\"ce:Update*\",\"bcm-data-exports:List*\",\"bcm-data-exports:CreateExport\",\"bcm-data-exports:UpdateExport\",\"bcm-data-exports:Get*\",\"ce:ProvideAnomalyFeedback\",\"ce:StartSavingsPlansPurchaseRecommendationGeneration\"],\"Resource\":\"*\"}]}"
+    "CustomPolicy": {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "Statement1",
+                "Effect": "Allow",
+                "Action": [
+                    "ce:List*",
+                    "ce:Describe*",
+                    "ce:Get*",
+                    "ce:Create*",
+                    "ce:Update*",
+                    "bcm-data-exports:List*",
+                    "bcm-data-exports:CreateExport",
+                    "bcm-data-exports:UpdateExport",
+                    "bcm-data-exports:Get*",
+                    "ce:ProvideAnomalyFeedback",
+                    "ce:StartSavingsPlansPurchaseRecommendationGeneration"
+                ],
+                "Resource": "*"
+            }
+        ]
+    }
 }

@@ -3,5 +3,48 @@
     "Description": "",
     "SessionDuration": "PT1H",
     "ManagedPolicies": [],
-    "CustomPolicy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"ListBuckets\",\"Effect\":\"Allow\",\"Action\":[\"s3:GetBucketLocation\",\"s3:ListAllMyBuckets\"],\"Resource\":[\"*\"]},{\"Sid\":\"ListBucketsWithinBuckets\",\"Effect\":\"Allow\",\"Action\":[\"s3:ListBucket\"],\"Resource\":[\"arn:aws:s3:::calsaws-aws-user-extract-100935367087\"],\"Condition\":{\"StringLike\":{\"s3:prefix\":[\"\",\"accenture/\"]}}},{\"Sid\":\"ListObjectsInBuckets\",\"Effect\":\"Allow\",\"Action\":[\"s3:GetObject\"],\"Resource\":[\"arn:aws:s3:::calsaws-aws-user-extract-100935367087/accenture/*\"]}]}"
+    "CustomPolicy": {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "ListBuckets",
+                "Effect": "Allow",
+                "Action": [
+                    "s3:GetBucketLocation",
+                    "s3:ListAllMyBuckets"
+                ],
+                "Resource": [
+                    "*"
+                ]
+            },
+            {
+                "Sid": "ListBucketsWithinBuckets",
+                "Effect": "Allow",
+                "Action": [
+                    "s3:ListBucket"
+                ],
+                "Resource": [
+                    "arn:aws:s3:::calsaws-aws-user-extract-100935367087"
+                ],
+                "Condition": {
+                    "StringLike": {
+                        "s3:prefix": [
+                            "",
+                            "accenture/"
+                        ]
+                    }
+                }
+            },
+            {
+                "Sid": "ListObjectsInBuckets",
+                "Effect": "Allow",
+                "Action": [
+                    "s3:GetObject"
+                ],
+                "Resource": [
+                    "arn:aws:s3:::calsaws-aws-user-extract-100935367087/accenture/*"
+                ]
+            }
+        ]
+    }
 }

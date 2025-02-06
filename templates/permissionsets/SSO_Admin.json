@@ -9,5 +9,33 @@
         "arn:aws:iam::aws:policy/AWSSupportAccess",
         "arn:aws:iam::aws:policy/IAMReadOnlyAccess"
     ],
-    "CustomPolicy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"VisualEditor0\",\"Effect\":\"Allow\",\"Action\":[\"iam:GetRole\",\"sso:ProvisionPermissionSet\",\"sso:CreateAccountAssignment\",\"iam:PutRolePermissionsBoundary\",\"iam:ListRoles\",\"iam:AttachRolePolicy\",\"iam:PutRolePolicy\",\"iam:ListAttachedRolePolicies\",\"sso:DisassociateProfile\",\"iam:ListRolePolicies\",\"iam:UpdateSAMLProvider\",\"iam:GetSAMLProvider\",\"iam:AttachRolePolicy\",\"iam:AttachGroupPolicy\",\"iam:AttachUserPolicy\",\"iam:PutGroupPolicy\",\"iam:PutRolePolicy\"],\"Resource\":\"*\"}]}"
+    "CustomPolicy": {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "VisualEditor0",
+                "Effect": "Allow",
+                "Action": [
+                    "iam:GetRole",
+                    "sso:ProvisionPermissionSet",
+                    "sso:CreateAccountAssignment",
+                    "iam:PutRolePermissionsBoundary",
+                    "iam:ListRoles",
+                    "iam:AttachRolePolicy",
+                    "iam:PutRolePolicy",
+                    "iam:ListAttachedRolePolicies",
+                    "sso:DisassociateProfile",
+                    "iam:ListRolePolicies",
+                    "iam:UpdateSAMLProvider",
+                    "iam:GetSAMLProvider",
+                    "iam:AttachRolePolicy",
+                    "iam:AttachGroupPolicy",
+                    "iam:AttachUserPolicy",
+                    "iam:PutGroupPolicy",
+                    "iam:PutRolePolicy"
+                ],
+                "Resource": "*"
+            }
+        ]
+    }
 }
