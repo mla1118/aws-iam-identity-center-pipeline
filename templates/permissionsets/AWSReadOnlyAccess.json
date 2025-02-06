@@ -1,9 +1,0 @@
-{
-    "Name": "AWSReadOnlyAccess",
-    "Description": "This policy grants permissions to view resources and basic metadata across all AWS services",
-    "SessionDuration": "PT1H",
-    "ManagedPolicies": [
-        "arn:aws:iam::aws:policy/job-function/ViewOnlyAccess"
-    ],
-    "CustomPolicy": ""
-}

@@ -1,9 +1,0 @@
-{
-    "Name": "AWS_ReadOnlyAccess",
-    "Description": "Allows full read only access to the account",
-    "SessionDuration": "PT1H",
-    "ManagedPolicies": [
-        "arn:aws:iam::aws:policy/ReadOnlyAccess"
-    ],
-    "CustomPolicy": ""
-}

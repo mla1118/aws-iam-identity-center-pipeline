@@ -1,7 +1,0 @@
-{
-    "Name": "GroupNameHere",
-    "Description": "just another ps",
-    "SessionDuration": "PT1H",
-    "ManagedPolicies": [],
-    "CustomPolicy": ""
-}

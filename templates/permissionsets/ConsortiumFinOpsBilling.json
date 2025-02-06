@@ -1,9 +1,0 @@
-{
-    "Name": "ConsortiumFinOpsBilling",
-    "Description": "AWS Defined Billing Permission Set for Consortium",
-    "SessionDuration": "PT1H",
-    "ManagedPolicies": [
-        "arn:aws:iam::aws:policy/job-function/Billing"
-    ],
-    "CustomPolicy": ""
-}

@@ -1,7 +1,0 @@
-{
-    "Name": "test_ps_1",
-    "Description": "testing script - to be deleted",
-    "SessionDuration": "PT1H",
-    "ManagedPolicies": [],
-    "CustomPolicy": ""
-}

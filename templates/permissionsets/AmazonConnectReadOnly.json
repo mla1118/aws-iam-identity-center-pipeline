@@ -1,9 +1,0 @@
-{
-    "Name": "AmazonConnectReadOnly",
-    "Description": "Allows user to have read only access to Amazon Connect",
-    "SessionDuration": "PT1H",
-    "ManagedPolicies": [
-        "arn:aws:iam::aws:policy/AmazonConnectReadOnlyAccess"
-    ],
-    "CustomPolicy": ""
-}

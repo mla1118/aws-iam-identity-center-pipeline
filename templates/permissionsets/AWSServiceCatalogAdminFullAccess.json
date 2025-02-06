@@ -1,9 +1,0 @@
-{
-    "Name": "AWSServiceCatalogAdminFullAccess",
-    "Description": "Provides full access to AWS Service Catalog admin capabilities",
-    "SessionDuration": "PT1H",
-    "ManagedPolicies": [
-        "arn:aws:iam::aws:policy/AWSServiceCatalogAdminFullAccess"
-    ],
-    "CustomPolicy": ""
-}
