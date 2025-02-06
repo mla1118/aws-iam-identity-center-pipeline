@@ -1,0 +1,20 @@
+{
+    "Name": "ps_2025",
+    "Description": "This tests the pipeline creation ",
+    "SessionDuration": "PT1H",
+    "ManagedPolicies": ["arn:aws:iam::aws:policy/AWSSupportAccess"],
+    "CustomPolicy": {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "s3:List*"
+                ],
+                "Resource": [
+                    "*"
+                ]
+            }
+        ]
+    }
+}
