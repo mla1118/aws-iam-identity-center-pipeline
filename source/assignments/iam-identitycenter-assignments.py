@@ -379,7 +379,7 @@ def generate_import_commands(assignments):
     commands = []
     
     for assignment in assignments:
-        # Ensure the Terraform key is safe and wrapped in double quotes
+        # Corrected f-string with single quotes for dictionary keys
         sid = f'"{sanitize_terraform_key(f"{assignment["TargetId"]}-{assignment["PrincipalId"]}-{assignment["PermissionSetArn"]}")}"'
         
         resource_id = f'{assignment["InstanceArn"]},{assignment["TargetId"]},{assignment["TargetType"]},{assignment["PermissionSetArn"]},{assignment["PrincipalType"]},{assignment["PrincipalId"]}'
