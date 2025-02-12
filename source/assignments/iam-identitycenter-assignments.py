@@ -378,7 +378,7 @@ def main():
 
     repositoryAssignments = load_assignments_from_file()
 
-    create_assignment_file(repositoryAssignments)
+    create_assignment_file(repositoryAssignments) 
 
     seen = []
     for eachSID in resolvedAssingmnets['Assignments']:
