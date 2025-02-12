@@ -243,7 +243,7 @@ def getGroupId(group_name):
     
     return group_id
 
-def create_assignment_file(permissionSetsArn,repositoryAssignments):
+def create_assignment_file(repositoryAssignments):
     log.info('Creating assignment file')
     
     try:
@@ -377,7 +377,7 @@ def main():
 
     repositoryAssignments = load_assignments_from_file()
 
-    create_assignment_file(permissionSetsArn,repositoryAssignments)
+    create_assignment_file(repositoryAssignments)
 
     seen = []
     for eachSID in resolvedAssingmnets['Assignments']:
