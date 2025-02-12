@@ -249,7 +249,7 @@ def create_assignment_file(permissionSetsArn,repositoryAssignments):
     try:
         for assignment in repositoryAssignments['Assignments']:
             accounts = resolve_targets(assignment)
-            principalId = lookup_principal_id(assignment['DisplayName'], assignment['PrincipalType'])
+            principalId = assignment['PrincipalId']
             
             for eachAccount in accounts:
                 if eachAccount != managementAccount:
