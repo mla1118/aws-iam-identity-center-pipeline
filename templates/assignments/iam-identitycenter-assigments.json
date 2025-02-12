@@ -9,7 +9,7 @@
                 "learn-aft:892267105701"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "test_group",
+            "PrincipalId": "test_group",
             "PermissionSetName": "ps_4"
         },
         {
@@ -19,7 +19,7 @@
                 "learn-aft:892267105701"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "pipeline-new-group",
+            "PrincipalId": "pipeline-new-group",
             "PermissionSetName": "ps_4"
         },
         {
@@ -28,7 +28,7 @@
                 "GenAIPOC:905418063764"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "sso_user_admin_group",
+            "PrincipalId": "sso_user_admin_group",
             "PermissionSetName": "ps_4"
         },
         {
@@ -37,7 +37,7 @@
                 "GenAIPOC:905418063764"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "anothertestgroupformeforme",
+            "PrincipalId": "anothertestgroupformeforme",
             "PermissionSetName": "ps_4"
         },
         {
@@ -46,7 +46,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "group_4",
+            "PrincipalId": "group_4",
             "PermissionSetName": "ps_4"
         },
         {
@@ -55,7 +55,7 @@
                 "learn-aft:892267105701"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "workspace_group",
+            "PrincipalId": "workspace_group",
             "PermissionSetName": "TestPermissionSetForTesting"
         },
         {
@@ -64,7 +64,7 @@
                 "Audit:954158699617"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "test_group",
+            "PrincipalId": "test_group",
             "PermissionSetName": "TestPermissionSetForTesting"
         },
         {
@@ -73,7 +73,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "ConsortiumSSOUserAdmin",
+            "PrincipalId": "ConsortiumSSOUserAdmin",
             "PermissionSetName": "ConsortiumSSOUserAdmin"
         },
         {
@@ -82,7 +82,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "AWSServiceCatalogAdmins",
+            "PrincipalId": "AWSServiceCatalogAdmins",
             "PermissionSetName": "AWSServiceCatalogAdminFullAccess"
         },
         {
@@ -91,7 +91,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "ConsoritumDataLakeQueries",
+            "PrincipalId": "ConsoritumDataLakeQueries",
             "PermissionSetName": "ConsortiumDataLakeQueryAccess"
         },
         {
@@ -100,7 +100,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "david-test-to-be-deleted",
+            "PrincipalId": "david-test-to-be-deleted",
             "PermissionSetName": "AWS_ReadOnlyAccess"
         },
         {
@@ -109,7 +109,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "AWS_ReadOnlyAccess",
+            "PrincipalId": "AWS_ReadOnlyAccess",
             "PermissionSetName": "AWS_ReadOnlyAccess"
         },
         {
@@ -118,7 +118,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "TestGroupA- Security",
+            "PrincipalId": "TestGroupA- Security",
             "PermissionSetName": "TestGroupA-Security"
         },
         {
@@ -127,7 +127,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "ConsortiumMPAFinanceSupportCenter",
+            "PrincipalId": "ConsortiumMPAFinanceSupportCenter",
             "PermissionSetName": "ConsortiumFinanceSupportCenter"
         },
         {
@@ -136,7 +136,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "TestSSOPermissions",
+            "PrincipalId": "TestSSOPermissions",
             "PermissionSetName": "SSO_User_Admin"
         },
         {
@@ -145,7 +145,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "SSO_User_Admin",
+            "PrincipalId": "SSO_User_Admin",
             "PermissionSetName": "SSO_User_Admin"
         },
         {
@@ -154,7 +154,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "IAMReadyOnly",
+            "PrincipalId": "IAMReadyOnly",
             "PermissionSetName": "ReadOnlyAccess"
         },
         {
@@ -163,7 +163,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "aws-sso-report-accenture",
+            "PrincipalId": "aws-sso-report-accenture",
             "PermissionSetName": "vendor-S3-folder-accenture"
         },
         {
@@ -179,7 +179,7 @@
                 "Log Archive:576038980564"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "AWSSecurityAuditors",
+            "PrincipalId": "AWSSecurityAuditors",
             "PermissionSetName": "AWSReadOnlyAccess"
         },
         {
@@ -191,7 +191,7 @@
                 "Log Archive:576038980564"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "SecurityReadOnly",
+            "PrincipalId": "SecurityReadOnly",
             "PermissionSetName": "AWSReadOnlyAccess"
         },
         {
@@ -200,7 +200,7 @@
                 "Audit:954158699617"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "AWSAuditTest",
+            "PrincipalId": "AWSAuditTest",
             "PermissionSetName": "AWSReadOnlyAccess"
         },
         {
@@ -209,7 +209,7 @@
                 "Log Archive:576038980564"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "AWSLogArchiveViewers",
+            "PrincipalId": "AWSLogArchiveViewers",
             "PermissionSetName": "AWSReadOnlyAccess"
         },
         {
@@ -218,7 +218,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "TestPermissionSetAndGroup",
+            "PrincipalId": "TestPermissionSetAndGroup",
             "PermissionSetName": "TestPermissionSetAndGroup"
         },
         {
@@ -234,7 +234,7 @@
                 "Log Archive:576038980564"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "AWSSecurityAuditPowerUsers",
+            "PrincipalId": "AWSSecurityAuditPowerUsers",
             "PermissionSetName": "AWSPowerUserAccess"
         },
         {
@@ -243,7 +243,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "BillingPreDefinedTestGroup",
+            "PrincipalId": "BillingPreDefinedTestGroup",
             "PermissionSetName": "BillingPreDefinedTest"
         },
         {
@@ -252,7 +252,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "AccessAdmin",
+            "PrincipalId": "AccessAdmin",
             "PermissionSetName": "SSOAdmin"
         },
         {
@@ -261,7 +261,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "TestGroupB- Finance",
+            "PrincipalId": "TestGroupB- Finance",
             "PermissionSetName": "TestGroupB-Finance"
         },
         {
@@ -270,7 +270,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "ConsortiumFinOpsBilling",
+            "PrincipalId": "ConsortiumFinOpsBilling",
             "PermissionSetName": "ConsortiumFinOps"
         },
         {
@@ -279,7 +279,7 @@
                 "Audit:954158699617"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "test_group",
+            "PrincipalId": "test_group",
             "PermissionSetName": "ps_5"
         },
         {
@@ -293,7 +293,7 @@
                 "Log Archive:576038980564"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "ConsortiumAdminFullReadOnly",
+            "PrincipalId": "ConsortiumAdminFullReadOnly",
             "PermissionSetName": "FullReadOnly"
         },
         {
@@ -302,7 +302,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "ConsortiumSCRAdminDashboard",
+            "PrincipalId": "ConsortiumSCRAdminDashboard",
             "PermissionSetName": "ConsortiumSCRAdminDashboard"
         },
         {
@@ -311,7 +311,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "AmazonConnectReadOnly",
+            "PrincipalId": "AmazonConnectReadOnly",
             "PermissionSetName": "AmazonConnectReadOnly"
         },
         {
@@ -327,7 +327,7 @@
                 "Log Archive:576038980564"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "POCAdmins",
+            "PrincipalId": "POCAdmins",
             "PermissionSetName": "AWSAdministratorAccess"
         },
         {
@@ -336,7 +336,7 @@
                 "Vendor-Security:090930025988"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "VendorSecurityFullAdmin",
+            "PrincipalId": "VendorSecurityFullAdmin",
             "PermissionSetName": "AWSAdministratorAccess"
         },
         {
@@ -345,7 +345,7 @@
                 "ScaleCapacity-AISCR:588738589111"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "ConsortiumScaleCapacityAISCRFullAdmin",
+            "PrincipalId": "ConsortiumScaleCapacityAISCRFullAdmin",
             "PermissionSetName": "AWSAdministratorAccess"
         },
         {
@@ -354,7 +354,7 @@
                 "learn-aft:892267105701"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "LearnAFTFullAdmin",
+            "PrincipalId": "LearnAFTFullAdmin",
             "PermissionSetName": "AWSAdministratorAccess"
         },
         {
@@ -364,7 +364,7 @@
                 "Log Archive:576038980564"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "AWSControlTowerAdmins",
+            "PrincipalId": "AWSControlTowerAdmins",
             "PermissionSetName": "AWSAdministratorAccess"
         },
         {
@@ -373,7 +373,7 @@
                 "Audit:954158699617"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "AWSAuditAccountAdmins",
+            "PrincipalId": "AWSAuditAccountAdmins",
             "PermissionSetName": "AWSAdministratorAccess"
         },
         {
@@ -382,7 +382,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "AWS Admnistrator Access",
+            "PrincipalId": "AWS Admnistrator Access",
             "PermissionSetName": "AWSAdministratorAccess"
         },
         {
@@ -391,7 +391,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "ManagementAccountAccess",
+            "PrincipalId": "ManagementAccountAccess",
             "PermissionSetName": "AWSAdministratorAccess"
         },
         {
@@ -400,7 +400,7 @@
                 "Log Archive:576038980564"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "AWSLogArchiveAdmins",
+            "PrincipalId": "AWSLogArchiveAdmins",
             "PermissionSetName": "AWSAdministratorAccess"
         },
         {
@@ -409,7 +409,7 @@
                 "GenAIPOC:905418063764"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "AWS Admnistrator Access",
+            "PrincipalId": "AWS Admnistrator Access",
             "PermissionSetName": "AdministratorAccess"
         },
         {
@@ -418,7 +418,7 @@
                 "GenAIPOC:905418063764"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "AccentureGenAIFullAdmin",
+            "PrincipalId": "AccentureGenAIFullAdmin",
             "PermissionSetName": "AdministratorAccess"
         },
         {
@@ -427,7 +427,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "YvonnesTest",
+            "PrincipalId": "YvonnesTest",
             "PermissionSetName": "testpermissionset"
         },
         {
@@ -440,7 +440,7 @@
                 "learn-aft:892267105701"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "AWSControlTowerAdmins",
+            "PrincipalId": "AWSControlTowerAdmins",
             "PermissionSetName": "AWSOrganizationsFullAccess"
         },
         {
@@ -449,7 +449,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "AWSAccountFactory",
+            "PrincipalId": "AWSAccountFactory",
             "PermissionSetName": "AWSServiceCatalogEndUserAccess"
         },
         {
@@ -459,7 +459,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "group_3",
+            "PrincipalId": "group_3",
             "PermissionSetName": "ps_3"
         },
         {
@@ -468,7 +468,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "FinopsPurchases",
+            "PrincipalId": "FinopsPurchases",
             "PermissionSetName": "FinOps_Purchases"
         },
         {
@@ -477,7 +477,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "ManagementAccountAccess",
+            "PrincipalId": "ManagementAccountAccess",
             "PermissionSetName": "ManagementAccountAccess"
         },
         {
@@ -486,7 +486,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "BelindaTestGroup",
+            "PrincipalId": "BelindaTestGroup",
             "PermissionSetName": "SSO_Admin"
         },
         {
@@ -495,7 +495,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "SSO_Admin",
+            "PrincipalId": "SSO_Admin",
             "PermissionSetName": "SSO_Admin"
         },
         {
@@ -504,7 +504,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "FinOpsMarketplace",
+            "PrincipalId": "FinOpsMarketplace",
             "PermissionSetName": "FinOps_MarketPlace"
         },
         {
@@ -513,7 +513,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "group_6",
+            "PrincipalId": "group_6",
             "PermissionSetName": "ps_6"
         },
         {
@@ -522,7 +522,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "ConsortiumMPAFinOpsAdmin",
+            "PrincipalId": "ConsortiumMPAFinOpsAdmin",
             "PermissionSetName": "ConsortiumRDSReservations"
         },
         {
@@ -531,7 +531,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "GroupNameHere",
+            "PrincipalId": "GroupNameHere",
             "PermissionSetName": "GroupNameHere"
         },
         {
@@ -540,7 +540,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "aws-sso-report-benefitscal",
+            "PrincipalId": "aws-sso-report-benefitscal",
             "PermissionSetName": "vendor-S3-folder-benefitscal"
         },
         {
@@ -549,7 +549,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "group_1",
+            "PrincipalId": "group_1",
             "PermissionSetName": "ps_1"
         },
         {
@@ -558,7 +558,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "SomethingNewGroup",
+            "PrincipalId": "SomethingNewGroup",
             "PermissionSetName": "SomethingNewPermissionSet"
         },
         {
@@ -567,7 +567,7 @@
                 "cdt-calsaws5-aws-payer:100935367087"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalName": "SomethingNewGroup",
+            "PrincipalId": "SomethingNewGroup",
             "PermissionSetName": "SomethingNewPS"
         }
     ]
