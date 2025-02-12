@@ -379,8 +379,14 @@ def generate_import_commands(assignments):
     commands = []
     
     for assignment in assignments:
-        # Corrected f-string with single quotes for dictionary keys
-        sid = f'"{sanitize_terraform_key(f"{assignment['TargetId']}-{assignment['PrincipalId']}-{assignment['PermissionSetArn']}")}"'
+        # First, build the key string separately
+        assignment_key = f"{assignment['TargetId']}-{assignment['PrincipalId']}-{assignment['PermissionSetArn']}"
+
+        # Then sanitize it
+        sanitized_key = sanitize_terraform_key(assignment_key)
+
+        # Finally, wrap it correctly in double quotes for Terraform
+        sid = f'"{sanitized_key}"'
         
         resource_id = f'{assignment["InstanceArn"]},{assignment["TargetId"]},{assignment["TargetType"]},{assignment["PermissionSetArn"]},{assignment["PrincipalType"]},{assignment["PrincipalId"]}'
         command = f'terraform import aws_ssoadmin_account_assignment.assignment[{sid}] {resource_id}'
