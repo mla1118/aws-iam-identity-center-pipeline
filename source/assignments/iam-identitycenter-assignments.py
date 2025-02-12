@@ -252,7 +252,8 @@ def create_assignment_file(repositoryAssignments):
             principalId = getGroupId(assignment['PrincipalId'])
             if principalId is None:
                 description = f"Allows users access to {accounts} with {assignment['PermissionSetName']} permissions"
-                createGroup(assignment['PrincipalId'], description)
+                principalId = createGroup(assignment['PrincipalId'], description)
+
             
             for eachAccount in accounts:
                 if eachAccount != managementAccount:
