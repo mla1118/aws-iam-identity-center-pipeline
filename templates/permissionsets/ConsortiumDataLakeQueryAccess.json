@@ -1,6 +1,6 @@
 {
     "Name": "ConsortiumDataLakeQueryAccess",
-    "Description": "",
+    "Description": "data lake query access",
     "SessionDuration": "PT1H",
     "ManagedPolicies": [
         "arn:aws:iam::aws:policy/service-role/AWSQuicksightAthenaAccess"

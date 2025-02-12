@@ -1,6 +1,6 @@
 {
     "Name": "BillingPreDefinedTest",
-    "Description": "",
+    "Description": "billing predefined test",
     "SessionDuration": "PT1H",
     "ManagedPolicies": [
         "arn:aws:iam::aws:policy/job-function/Billing"

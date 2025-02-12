@@ -1,6 +1,6 @@
 {
     "Name": "vendor-S3-folder-accenture",
-    "Description": "",
+    "Description": "vendor s3 folder",
     "SessionDuration": "PT1H",
     "ManagedPolicies": [],
     "CustomPolicy": {

@@ -1,6 +1,6 @@
 {
     "Name": "AdministratorAccess",
-    "Description": "",
+    "Description": "Admin Access",
     "SessionDuration": "PT1H",
     "ManagedPolicies": [
         "arn:aws:iam::aws:policy/AdministratorAccess",
