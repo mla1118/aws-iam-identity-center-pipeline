@@ -319,6 +319,10 @@ def getPermissionSetArn(permission_set_name):
     print(f"{permission_set_name} not found")
     return False
 
+def sanitize_terraform_key(value):
+    """Replace special characters to make it Terraform-compatible."""
+    return re.sub(r'[^a-zA-Z0-9_-]', '_', value)
+
 def createGroup(group_name, group_description):
     '''
     Creates a new group in Identity Center
@@ -375,7 +379,7 @@ def generate_import_commands(assignments):
     commands = []
     
     for assignment in assignments:
-        sid = f'{assignment["TargetId"]}-{assignment["PrincipalId"]}-{assignment["PermissionSetArn"]}'
+        sid = sanitize_terraform_key(f'{assignment["TargetId"]}-{assignment["PrincipalId"]}-{assignment["PermissionSetArn"]}')
         resource_id = f'{assignment["InstanceArn"]},{assignment["TargetId"]},{assignment["TargetType"]},{assignment["PermissionSetArn"]},{assignment["PrincipalType"]},{assignment["PrincipalId"]}'
         command = f'terraform import aws_ssoadmin_account_assignment.assignment["{sid}"] {resource_id}'
         commands.append(command)
