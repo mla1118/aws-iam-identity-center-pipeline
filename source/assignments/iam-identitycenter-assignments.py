@@ -320,8 +320,8 @@ def getPermissionSetArn(permission_set_name):
     return False
 
 def sanitize_terraform_key(value):
-    """Replace special characters to make it Terraform-compatible."""
-    return re.sub(r'[^a-zA-Z0-9_-]', '_', value)
+    """Replace special characters to make Terraform-compatible keys."""
+    return re.sub(r'[^a-zA-Z0-9_-]', '_', value)  # Replace invalid characters with underscores
 
 def createGroup(group_name, group_description):
     '''
@@ -379,9 +379,11 @@ def generate_import_commands(assignments):
     commands = []
     
     for assignment in assignments:
-        sid = sanitize_terraform_key(f'{assignment["TargetId"]}-{assignment["PrincipalId"]}-{assignment["PermissionSetArn"]}')
+        # Ensure the Terraform key is safe and wrapped in double quotes
+        sid = f'"{sanitize_terraform_key(f"{assignment["TargetId"]}-{assignment["PrincipalId"]}-{assignment["PermissionSetArn"]}")}"'
+        
         resource_id = f'{assignment["InstanceArn"]},{assignment["TargetId"]},{assignment["TargetType"]},{assignment["PermissionSetArn"]},{assignment["PrincipalType"]},{assignment["PrincipalId"]}'
-        command = f'terraform import aws_ssoadmin_account_assignment.assignment["{sid}"] {resource_id}'
+        command = f'terraform import aws_ssoadmin_account_assignment.assignment[{sid}] {resource_id}'
         commands.append(command)
 
     return commands
