@@ -1,0 +1,10 @@
+{
+    "Name": "ReadOnlyAccess",
+    "Description": "something new permission set",
+    "SessionDuration": "PT1H",
+    "ManagedPolicies": [
+        "arn:aws:iam::aws:policy/AWSSupportAccess",
+        "arn:aws:iam::aws:policy/ReadOnlyAccess"
+    ],
+    "CustomPolicy": ""
+}
