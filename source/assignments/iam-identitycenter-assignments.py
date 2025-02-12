@@ -250,6 +250,9 @@ def create_assignment_file(permissionSetsArn,repositoryAssignments):
         for assignment in repositoryAssignments['Assignments']:
             accounts = resolve_targets(assignment)
             principalId = getGroupId(assignment['PrincipalId'])
+            if principalId is None:
+                description = f"Allows users access to {accounts} with {assignment['PermissionSetName']} permissions"
+                createGroup(assignment['PrincipalId'], description)
             
             for eachAccount in accounts:
                 if eachAccount != managementAccount:
@@ -313,6 +316,26 @@ def getPermissionSetArn(permission_set_name):
     # if permission set name given is not found in the list, tell user
     print(f"{permission_set_name} not found")
     return False
+
+def createGroup(group_name, group_description):
+    '''
+    Creates a new group in Identity Center
+
+    Arguments:
+    - group_name -> name for the new group to create
+    - permission_set_name -> permission set to be attached to the group
+    - group_description -> description for group (DEFAULT: None)
+
+    Returns:
+    - group_id -> ID of group created
+    '''
+    identity_store_client = boto3.client('identitystore', config=config)
+    # if no group description given, create default:  "Allows users access to <accountName> with <permissionSet> permissions"
+    print(f"Creating group {group_name}...")
+    # create group
+    response = identity_store_client.create_group(IdentityStoreId=identitystore, DisplayName=group_name, Description=group_description)
+
+    return response['GroupId']
   
 
 # gets a list of all permission sets ARNs
