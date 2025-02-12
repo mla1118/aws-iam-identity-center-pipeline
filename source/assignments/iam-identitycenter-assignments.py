@@ -258,7 +258,7 @@ def create_assignment_file(permissionSetsArn,repositoryAssignments):
                             "Sid": str(eachAccount)+str(assignment['PrincipalId'])+str(assignment['PrincipalType'])+str(assignment['PermissionSetName']),
                             "PrincipalId": principalId,
                             "PrincipalType": assignment['PrincipalType'],
-                            "PermissionSetName": permissionSetsArn[assignment['PermissionSetName']],
+                            "PermissionSetName": assignment['PermissionSetName'],
                             "Target": eachAccount
                         }
                     )                
