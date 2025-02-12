@@ -1,0 +1,11 @@
+{
+    "Name": "AWSAdministratorAccess",
+    "Description": "Provides full access to AWS services and resources",
+    "SessionDuration": "PT8H",
+    "ManagedPolicies": [
+        "arn:aws:iam::aws:policy/AWSFMAdminFullAccess",
+        "arn:aws:iam::aws:policy/AdministratorAccess",
+        "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+    ],
+    "CustomPolicy": ""
+}

@@ -1,0 +1,10 @@
+{
+    "Name": "AdministratorAccess",
+    "Description": "",
+    "SessionDuration": "PT1H",
+    "ManagedPolicies": [
+        "arn:aws:iam::aws:policy/AdministratorAccess",
+        "arn:aws:iam::aws:policy/AmazonBedrockFullAccess"
+    ],
+    "CustomPolicy": ""
+}

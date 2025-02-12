@@ -1,0 +1,22 @@
+{
+    "Name": "ps_5",
+    "Description": "testing",
+    "SessionDuration": "PT1H",
+    "ManagedPolicies": [
+        "arn:aws:iam::aws:policy/AmazonConnectReadOnlyAccess"
+    ],
+    "CustomPolicy": {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Deny",
+                "Action": [
+                    "sso-directory:DeleteUser",
+                    "sso-directory:DeleteProvisioningTenant",
+                    "sso-directory:DeleteBearerToken"
+                ],
+                "Resource": "*"
+            }
+        ]
+    }
+}

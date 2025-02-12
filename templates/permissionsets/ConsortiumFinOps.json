@@ -1,0 +1,7 @@
+{
+    "Name": "ConsortiumFinOps",
+    "Description": "ConsortiumFinOpsPolicy:  Allows access to Billing Credits, Budgets to list, create and modify budgets, Cost explorer to view cost categories, definitions and reports, create and manage anomalies report, Savings plans recommendations, utilization and details, Reserved Instances ulilization and coverage, Right Sizing Recommendations, Consolidated Billing, Reports, view and download and Support Cases. ",
+    "SessionDuration": "PT1H",
+    "ManagedPolicies": [],
+    "CustomPolicy": ""
+}

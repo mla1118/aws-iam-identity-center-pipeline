@@ -1,0 +1,35 @@
+{
+    "Name": "SSO_User_Admin",
+    "Description": "Allows user to create/delete users, add/remove users from groups, create groups, view accounts",
+    "SessionDuration": "PT1H",
+    "ManagedPolicies": [
+        "arn:aws:iam::aws:policy/AWSSSOReadOnly",
+        "arn:aws:iam::aws:policy/ReadOnlyAccess"
+    ],
+    "CustomPolicy": {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "sso:DisassociateProfile",
+                    "sso:CreatePermissionSet",
+                    "sso:ProvisionPermissionSet",
+                    "sso:PutInlinePolicyToPermissionSet",
+                    "sso:AttachManagedPolicyToPermissionSet",
+                    "sso:DeletePermissionsPolicy",
+                    "sso:DetachCustomerManagedPolicyReferenceFromPermissionSet",
+                    "sso:DetachManagedPolicyFromPermissionSet",
+                    "sso:UpdatePermissionSet",
+                    "sso:PutPermissionsPolicy",
+                    "sso:AttachCustomerManagedPolicyReferenceToPermissionSet",
+                    "sso-directory:DescribeGroup",
+                    "sso-directory:DescribeGroups",
+                    "sso-directory:CreateGroup",
+                    "sso-directory:UpdateGroup"
+                ],
+                "Resource": "*"
+            }
+        ]
+    }
+}

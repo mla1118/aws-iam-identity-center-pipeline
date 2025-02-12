@@ -1,0 +1,9 @@
+{
+    "Name": "AWSOrganizationsFullAccess",
+    "Description": "Provides full access to AWS Organizations",
+    "SessionDuration": "PT1H",
+    "ManagedPolicies": [
+        "arn:aws:iam::aws:policy/AWSOrganizationsFullAccess"
+    ],
+    "CustomPolicy": ""
+}

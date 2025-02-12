@@ -1,0 +1,7 @@
+{
+    "Name": "ChrisTestPermissions",
+    "Description": "For Testing",
+    "SessionDuration": "PT1H",
+    "ManagedPolicies": [],
+    "CustomPolicy": ""
+}

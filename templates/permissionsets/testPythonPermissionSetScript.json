@@ -1,0 +1,241 @@
+{
+    "Name": "testPythonPermissionSetScript",
+    "Description": "testing python script",
+    "SessionDuration": "PT1H",
+    "ManagedPolicies": [
+        "arn:aws:iam::aws:policy/AWSSupportAccess"
+    ],
+    "CustomPolicy": {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "GenericDBAAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "ec2:StartInstances",
+                    "ec2:StopInstances",
+                    "ec2:RevokeSecurityGroupIngress",
+                    "ec2:AuthorizeSecurityGroupEgress",
+                    "ec2:AuthorizeSecurityGroupIngress",
+                    "ec2:UpdateSecurityGroupRuleDescriptionsEgress",
+                    "ec2:RevokeSecurityGroupEgress",
+                    "ec2:ModifySecurityGroupRules",
+                    "ec2:UpdateSecurityGroupRuleDescriptionsIngress",
+                    "cloudtrail:StartQuery",
+                    "cloudtrail:CancelQuery",
+                    "rds:ApplyPendingMaintenanceAction",
+                    "rds:CrossRegionCommunication",
+                    "rds:AddTagsToResource",
+                    "rds:RemoveTagsFromResource",
+                    "rds:RebootDBInstance",
+                    "rds:*Cluster*",
+                    "rds:*DB*",
+                    "rds:*Group*",
+                    "rds:*Replica*",
+                    "dms:CreateReplicationSubnetGroup",
+                    "dms:CreateReplicationInstance",
+                    "dms:CreateEndpoint",
+                    "dms:CreateReplicationTask",
+                    "dms:StartReplicationTask",
+                    "dms:StopReplicationTask",
+                    "dms:StartReplication",
+                    "dms:StopReplication",
+                    "dms:ModifyEndpoint",
+                    "dms:ModifyReplicationTask",
+                    "dms:ModifyReplicationSubnetGroup",
+                    "dms:ModifyReplicationInstance",
+                    "dms:DeleteReplicationTask",
+                    "dms:DeleteReplicationSubnetGroup",
+                    "dms:DeleteEndpoint",
+                    "dms:DeleteReplicationInstance",
+                    "dms:TestConnection",
+                    "pi:*"
+                ],
+                "Resource": "*"
+            },
+            {
+                "Sid": "KMSAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "kms:Encrypt",
+                    "kms:Decrypt",
+                    "kms:GenerateDataKey",
+                    "kms:ReEncrypt*",
+                    "kms:CreateGrant"
+                ],
+                "Resource": "*",
+                "Condition": {
+                    "StringLike": {
+                        "kms:ViaService": [
+                            "rds.*.amazonaws.com",
+                            "dms.*.amazonaws.com",
+                            "secretsmanager.*.amazonaws.com"
+                        ]
+                    }
+                }
+            },
+            {
+                "Sid": "RDSEnhancedMonitoring",
+                "Effect": "Allow",
+                "Action": [
+                    "iam:PassRole",
+                    "iam:GetRole"
+                ],
+                "Resource": "*",
+                "Condition": {
+                    "StringLike": {
+                        "iam:PassedToService": [
+                            "rds.amazonaws.com",
+                            "dms.amazonaws.com"
+                        ]
+                    }
+                }
+            },
+            {
+                "Sid": "ServiceLinkedRoleAccess",
+                "Effect": "Allow",
+                "Action": "iam:CreateServiceLinkedRole",
+                "Resource": "*",
+                "Condition": {
+                    "StringLike": {
+                        "iam:AWSServiceName": [
+                            "rds.amazonaws.com"
+                        ]
+                    }
+                }
+            },
+            {
+                "Sid": "CloudformationAccess",
+                "Effect": "Allow",
+                "Action": "cloudformation:*",
+                "Resource": [
+                    "arn:aws:cloudformation:*:*:stackset/*misc*:*",
+                    "arn:aws:cloudformation:*:*:stack/*misc*/*"
+                ]
+            },
+            {
+                "Sid": "CloudformationUploadAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "s3:GetObject",
+                    "s3:PutObject",
+                    "s3:DeleteObject",
+                    "s3:ListBucket"
+                ],
+                "Resource": "*",
+                "Condition": {
+                    "ForAnyValue:StringEquals": {
+                        "aws:CalledVia": "cloudformation.amazonaws.com"
+                    }
+                }
+            },
+            {
+                "Effect": "Allow",
+                "Action": "route53:ChangeResourceRecordSets",
+                "Resource": [
+                    "arn:aws:route53:::hostedzone/Z04407061YB9OEA606ABA",
+                    "arn:aws:route53:::hostedzone/Z1N6C7FRGU839",
+                    "arn:aws:route53:::hostedzone/Z0481542VIEOTFRIAKFK",
+                    "arn:aws:route53:::hostedzone/Z8QN6IUXKULDE",
+                    "arn:aws:route53:::hostedzone/Z087736634CMBA4Q0XH1I",
+                    "arn:aws:route53:::hostedzone/Z2RJG25CPZGLTE"
+                ],
+                "Condition": {
+                    "ForAnyValue:StringLike": {
+                        "route53:ChangeResourceRecordSetsNormalizedRecordNames": [
+                            "*db*",
+                            "*misc*",
+                            "*amp*",
+                            "*audit*"
+                        ]
+                    }
+                }
+            },
+            {
+                "Sid": "LambdaAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "lambda:InvokeFunction",
+                    "lambda:UpdateFunctionConfiguration"
+                ],
+                "Resource": [
+                    "arn:aws:lambda:*:*:function:*SNAPSHOT*",
+                    "arn:aws:lambda:*:*:function:*snapshot*",
+                    "arn:aws:lambda:*:*:function:*Snapshot*"
+                ]
+            },
+            {
+                "Sid": "SecretsManagerAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "secretsmanager:GetResourcePolicy",
+                    "secretsmanager:GetSecretValue",
+                    "secretsmanager:DescribeSecret",
+                    "secretsmanager:RotateSecret",
+                    "secretsmanager:UpdateSecret",
+                    "secretsmanager:RestoreSecret",
+                    "secretsmanager:PutSecretValue",
+                    "secretsmanager:ListSecretVersionIds"
+                ],
+                "Resource": [
+                    "arn:aws:secretsmanager:*:*:secret:rds!*",
+                    "arn:aws:secretsmanager:*:*:secret:secret/*/*/oracle*",
+                    "arn:aws:secretsmanager:*:*:secret:secret/*/*/rds*",
+                    "arn:aws:secretsmanager:*:*:secret:secret/analytics/*",
+                    "arn:aws:secretsmanager:*:*:secret:rdsuser/*/${aws:username}*"
+                ]
+            },
+            {
+                "Sid": "SessionAccess",
+                "Effect": "Allow",
+                "Action": "ssm:StartSession",
+                "Resource": "*",
+                "Condition": {
+                    "StringLike": {
+                        "ssm:resourceTag/TeamOwner": [
+                            "DBA"
+                        ]
+                    }
+                }
+            },
+            {
+                "Sid": "SSMSessionDocumentAccess",
+                "Effect": "Allow",
+                "Action": "ssm:StartSession",
+                "Resource": "arn:aws:ssm:*:*:document/SSM-SessionManagerRunShell"
+            },
+            {
+                "Sid": "SessionAccess2",
+                "Effect": "Allow",
+                "Action": [
+                    "ssm:TerminateSession",
+                    "ssm:ResumeSession"
+                ],
+                "Resource": [
+                    "arn:aws:ssm:*:*:session/${aws:username}-*"
+                ]
+            },
+            {
+                "Sid": "JenkinsSessionAccess",
+                "Effect": "Allow",
+                "Action": "ssm:StartSession",
+                "Resource": "*",
+                "Condition": {
+                    "StringLike": {
+                        "ssm:resourceTag/Name": "Jenkins*"
+                    }
+                }
+            },
+            {
+                "Sid": "RDSSessionAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "rds-db:connect"
+                ],
+                "Resource": [
+                    "arn:aws:rds-db:*:*:dbuser:*/${aws:PrincipalTag/Username}"
+                ]
+            }
+        ]
+    }
+}
