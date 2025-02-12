@@ -25,6 +25,7 @@ from botocore.config import Config
 import re
 import argparse
 import traceback
+import subprocess
 
 # Logging configuration
 logging.basicConfig(format='%(asctime)s,%(msecs)03d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
@@ -337,6 +338,69 @@ def createGroup(group_name, group_description):
     response = identity_store_client.create_group(IdentityStoreId=identitystore, DisplayName=group_name, Description=group_description)
 
     return response['GroupId']
+
+def get_existing_assignments():
+    """Fetch all existing SSO assignments."""
+    sso_admin_client = boto3.client('sso-admin', config=config)
+    assignments = []
+    
+    # Get all permission sets
+    permission_sets = sso_admin_client.list_permission_sets(InstanceArn=ssoInstanceArn)["PermissionSets"]
+
+    for ps_arn in permission_sets:
+        # Get all AWS account assignments for this permission set
+        accounts = sso_admin_client.list_accounts_for_provisioned_permission_set(
+            InstanceArn=ssoInstanceArn, PermissionSetArn=ps_arn
+        ).get("AccountIds", [])
+
+        for account in accounts:
+            response = sso_admin_client.list_account_assignments(
+                InstanceArn=ssoInstanceArn, AccountId=account, PermissionSetArn=ps_arn
+            )
+
+            for assignment in response["AccountAssignments"]:
+                assignments.append({
+                    "InstanceArn": ssoInstanceArn,
+                    "TargetId": account,
+                    "TargetType": "AWS_ACCOUNT",
+                    "PermissionSetArn": ps_arn,
+                    "PrincipalType": assignment["PrincipalType"],
+                    "PrincipalId": assignment["PrincipalId"],
+                })
+    
+    return assignments
+
+def generate_import_commands(assignments):
+    """Generate Terraform import commands for existing assignments."""
+    commands = []
+    
+    for assignment in assignments:
+        sid = f'{assignment["TargetId"]}-{assignment["PrincipalId"]}-{assignment["PermissionSetArn"]}'
+        resource_id = f'{assignment["InstanceArn"]},{assignment["TargetId"]},{assignment["TargetType"]},{assignment["PermissionSetArn"]},{assignment["PrincipalType"]},{assignment["PrincipalId"]}'
+        command = f'terraform import aws_ssoadmin_account_assignment.assignment["{sid}"] {resource_id}'
+        commands.append(command)
+
+    return commands
+
+def is_already_imported(sid):
+    """Check if an assignment is already imported in Terraform."""
+    result = subprocess.run(
+        f"terraform state list | grep aws_ssoadmin_account_assignment.assignment[\"{sid}\"]",
+        shell=True,
+        capture_output=True,
+        text=True
+    )
+    return sid in result.stdout
+
+def run_imports(commands):
+    """Run Terraform import commands only if they haven't been imported."""
+    for command in commands:
+        sid = command.split('assignment["')[1].split('"]')[0]  # Extract the assignment SID
+        if is_already_imported(sid):
+            print(f"Skipping already imported assignment: {sid}")
+            continue
+        print(f"Executing: {command}")
+        subprocess.run(command, shell=True)
   
 
 # gets a list of all permission sets ARNs
@@ -377,7 +441,16 @@ def main():
     permissionSetsArn = get_current_permissionset_list()
 
     repositoryAssignments = load_assignments_from_file()
+    existing_assignments = get_existing_assignments()
+    commands = generate_import_commands(existing_assignments)
 
+    if commands:
+        print("\nImporting existing SSO assignments into Terraform...\n")
+        run_imports(commands)
+        print("\nAll existing assignments have been imported into Terraform.")
+    else:
+        print("\nNo existing assignments found to import.")
+    
     create_assignment_file(repositoryAssignments) 
 
     seen = []
