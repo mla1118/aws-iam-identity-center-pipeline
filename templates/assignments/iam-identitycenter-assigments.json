@@ -8,7 +8,7 @@
                 "learn-aft:892267105701"
             ],
             "PrincipalType": "GROUP",
-            "PrincipalId": "pipeline_new_group",
+            "PrincipalId": "pipeline-new-group",
             "PermissionSetName": "ps_4"
         }
     ]
