@@ -253,12 +253,13 @@ def create_assignment_file(permissionSetsArn,repositoryAssignments):
             
             for eachAccount in accounts:
                 if eachAccount != managementAccount:
+                    ps_arn = getPermissionSetArn(assignment['PermissionSetName'])
                     resolvedAssingmnets['Assignments'].append(
                         {
                             "Sid": str(eachAccount)+str(assignment['PrincipalId'])+str(assignment['PrincipalType'])+str(assignment['PermissionSetName']),
                             "PrincipalId": principalId,
                             "PrincipalType": assignment['PrincipalType'],
-                            "PermissionSetName": assignment['PermissionSetName'],
+                            "PermissionSetName": ps_arn,
                             "Target": eachAccount
                         }
                     )                
@@ -267,6 +268,65 @@ def create_assignment_file(permissionSetsArn,repositoryAssignments):
         log.error("Error: " + str(error))
         log.error(traceback.format_exc())
         exit (1)
+
+def getPermissionSetName(permission_set_arn):
+    '''
+    This function gets the permission set name
+    Arguments:
+    permission_set_arn - ARN (Amazon Resource Name) of permission set name to find
+
+    Returns:
+    - permission set name
+    '''
+    sso_admin_client = boto3.client('sso-admin', config=config)
+    # get all info on the given permission set
+    response = sso_admin_client.describe_permission_set(InstanceArn=ssoInstanceArn, PermissionSetArn=permission_set_arn)
+    # return only the name from the recieved response
+    return response['PermissionSet']['Name']
+
+
+def getPermissionSetArn(permission_set_name):
+    '''
+    This function gets the permission set ARN 
+    Arguments:
+    permission_set_name - name of permission set to find
+
+    Returns:
+    - permission set ARN
+
+    If permission set is not found, then this function will print "<>
+    '''
+    # get list of all permission sets
+    permission_set_arns = listPermissionSets()
+    # be tranparent with user
+    print(f"Looking for the ARN for {permission_set_name}...")
+    # loop through permission set list 
+    for arn in permission_set_arns:
+        # get the name of the current permission set in list
+        ps_name = getPermissionSetName(arn)
+        # check if this is the permission set to find
+        if ps_name == permission_set_name:
+            # if so, print the ARN to the console for user
+            print(f"{permission_set_name} ARN: {arn}")
+            # return the found ARN
+            return arn
+    # if permission set name given is not found in the list, tell user
+    print(f"{permission_set_name} not found")
+    return False
+  
+
+# gets a list of all permission sets ARNs
+def listPermissionSets():
+    """
+    Retrieves a list of all permission set ARNs used in all AWS accounts in the organization
+
+    """
+    sso_admin_client = boto3.client('sso-admin', config=config)
+    paginator = sso_admin_client.get_paginator('list_permission_sets')
+    permission_sets = (ps for page in paginator.paginate(InstanceArn=ssoInstanceArn)
+                    for ps in page['PermissionSets'])
+
+    return permission_sets
 
 def main():
     print("#######################################")
