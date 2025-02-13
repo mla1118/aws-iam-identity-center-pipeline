@@ -342,15 +342,15 @@ def createGroup(group_name, group_description):
     return response['GroupId']
 
 def get_existing_assignments():
-    """Fetch all existing SSO assignments."""
+    """Fetch all existing AWS SSO assignments from IAM Identity Center."""
     sso_admin_client = boto3.client('sso-admin', config=config)
-    assignments = []
-    
+    assignments = {}
+
     # Get all permission sets
     permission_sets = sso_admin_client.list_permission_sets(InstanceArn=ssoInstanceArn)["PermissionSets"]
 
     for ps_arn in permission_sets:
-        # Get all AWS account assignments for this permission set
+        # Get all AWS accounts assigned to this permission set
         accounts = sso_admin_client.list_accounts_for_provisioned_permission_set(
             InstanceArn=ssoInstanceArn, PermissionSetArn=ps_arn
         ).get("AccountIds", [])
@@ -361,29 +361,37 @@ def get_existing_assignments():
             )
 
             for assignment in response["AccountAssignments"]:
-                assignments.append({
+                assignment_key = f"{account}-{assignment['PrincipalId']}-{assignment['PermissionSetArn']}"
+                assignments[assignment_key] = {
                     "InstanceArn": ssoInstanceArn,
                     "TargetId": account,
                     "TargetType": "AWS_ACCOUNT",
                     "PermissionSetArn": ps_arn,
                     "PrincipalType": assignment["PrincipalType"],
                     "PrincipalId": assignment["PrincipalId"],
-                })
-    
+                }
+
     return assignments
 
 def sanitize_terraform_key(value):
     """Replace special characters to make Terraform-compatible keys."""
     return re.sub(r'[^a-zA-Z0-9_-]', '_', value)  # Replace invalid characters with underscores
 
+
+
 def generate_import_commands(assignments):
     """Generate Terraform import commands for existing assignments."""
     commands = []
+
+    existing_assignments = get_existing_assignments()
     
     for assignment in assignments:
         # First, build the key string separately
         assignment_key = f"{assignment['TargetId']}-{assignment['PrincipalId']}-{assignment['PermissionSetArn']}"
-
+        # Skip assignment if it already exists
+        if assignment_key in existing_assignments:
+            log.info(f"Skipping already existing assignment: {assignment_key}")
+            continue 
         # Then sanitize it for Terraform
         sanitized_key = sanitize_terraform_key(assignment_key)
 
