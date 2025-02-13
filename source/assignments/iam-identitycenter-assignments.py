@@ -428,6 +428,14 @@ def is_already_imported(sid):
 
 def run_imports(commands):
     """Run Terraform import commands only if they haven't been imported."""
+    
+    # Ensure Terraform is initialized before running imports
+    log.info("Checking Terraform initialization...")
+    init_result = subprocess.run("terraform init -input=false", shell=True, capture_output=True, text=True)
+    if init_result.returncode != 0:
+        log.error(f"Terraform initialization failed: {init_result.stderr}")
+        exit(1)
+    
     for command in commands:
         # Extract SID from the Terraform command format
         match = re.search(r'assignment\["(.+?)"\]', command)
@@ -444,13 +452,16 @@ def run_imports(commands):
 
         # Execute Terraform import
         log.info(f"Executing Terraform import: {command}")
-        subprocess.run(command, shell=True, check=True)
+        import_result = subprocess.run(command, shell=True, capture_output=True, text=True)
+        if import_result.returncode != 0:
+            log.error(f"Terraform import failed: {import_result.stderr}")
 
     # Refresh Terraform state after imports
     log.info("Refreshing Terraform state after imports...")
-    subprocess.run("terraform refresh", shell=True, check=True)
-  
-
+    refresh_result = subprocess.run("terraform refresh", shell=True, capture_output=True, text=True)
+    if refresh_result.returncode != 0:
+        log.error(f"Terraform refresh failed: {refresh_result.stderr}")
+        exit(1)
 # gets a list of all permission sets ARNs
 def listPermissionSets():
     """
