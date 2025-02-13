@@ -361,7 +361,7 @@ def get_existing_assignments():
             )
 
             for assignment in response["AccountAssignments"]:
-                assignment_key = f"{account}-{assignment['PrincipalId']}-{assignment['PermissionSetArn']}"
+                assignment_key = f"{account}:{assignment['PrincipalId']}:{ps_arn}"
                 assignments[assignment_key] = {
                     "InstanceArn": ssoInstanceArn,
                     "TargetId": account,
@@ -387,16 +387,22 @@ def generate_import_commands(assignments):
     existing_assignments = get_existing_assignments()
 
     for assignment in assignments:
-        # Check if expected keys exist
-        if not all(key in assignment for key in ["Target", "PrincipalId", "PermissionSetName"]):
+        # Check if required keys exist in assignment
+        required_keys = ["Target", "PrincipalId", "PermissionSetName", "PrincipalType"]
+        if not all(key in assignment for key in required_keys):
             log.warning(f"Skipping invalid assignment (missing fields): {assignment}")
             continue
 
-        # Generate a unique assignment key
-        assignment_key = f"{assignment['Target']}-{assignment['PrincipalId']}-{assignment['PermissionSetName']}"
+        # Generate a consistent assignment key
+        assignment_key = f"{assignment['Target']}:{assignment['PrincipalId']}:{assignment['PermissionSetName']}"
 
-        # Skip assignment if it already exists in AWS
-        if assignment_key in existing_assignments:
+        # Compare properly with existing assignments from AWS
+        if any(
+            existing['TargetId'] == assignment["Target"]
+            and existing['PrincipalId'] == assignment["PrincipalId"]
+            and existing['PermissionSetArn'] == assignment["PermissionSetName"]
+            for existing in existing_assignments.values()
+        ):
             log.info(f"Skipping already existing assignment: {assignment_key}")
             continue  
 
@@ -404,8 +410,8 @@ def generate_import_commands(assignments):
         sanitized_key = sanitize_terraform_key(assignment_key)
         sid = f'"{sanitized_key}"'
 
-        # Ensure correct keys are used
-        resource_id = f'{assignment.get("InstanceArn", "")},{assignment["Target"]},{assignment.get("TargetType", "AWS_ACCOUNT")},{assignment["PermissionSetName"]},{assignment["PrincipalType"]},{assignment["PrincipalId"]}'
+        # Ensure correct resource ID format
+        resource_id = f'{assignment.get("InstanceArn", ssoInstanceArn)},{assignment["Target"]},{assignment.get("TargetType", "AWS_ACCOUNT")},{assignment["PermissionSetName"]},{assignment["PrincipalType"]},{assignment["PrincipalId"]}'
 
         command = f'terraform import aws_ssoadmin_account_assignment.assignment[{sid}] {resource_id}'
         commands.append(command)
