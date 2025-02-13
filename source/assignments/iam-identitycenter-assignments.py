@@ -470,8 +470,7 @@ def main():
     permissionSetsArn = get_current_permissionset_list()
 
     repositoryAssignments = load_assignments_from_file()
-    existing_assignments = get_existing_assignments()
-    commands = generate_import_commands(existing_assignments)
+    commands = generate_import_commands(list(repositoryAssignments["Assignments"]))
 
     if commands:
         print("\nImporting existing SSO assignments into Terraform...\n")
