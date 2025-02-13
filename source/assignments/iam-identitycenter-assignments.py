@@ -385,31 +385,30 @@ def generate_import_commands(assignments):
     existing_assignments = get_existing_assignments()
 
     for assignment in assignments:
-        # Ensure required fields exist
         required_keys = ["Target", "PrincipalId", "PermissionSetName", "PrincipalType"]
         if not all(key in assignment for key in required_keys):
             log.warning(f"Skipping invalid assignment (missing fields): {assignment}")
             continue
 
-        for target in assignment["Target"]:  # Handle multiple targets
+        for target in assignment["Target"]:
             if ":" in target:
                 target_id = target.split(":")[-1]  # Extract AWS Account ID
             else:
                 log.warning(f"Skipping invalid Target format: {target}")
                 continue
 
-            # Construct a valid HCL key (Terraform requires double quotes)
-            assignment_key = f'{target_id}_{assignment["PrincipalId"]}_{assignment["PermissionSetName"]}'
+            # Generate a Terraform-compatible index key
+            assignment_key = f"{target_id}_{assignment['PrincipalId']}_{assignment['PermissionSetName']}"
             sanitized_key = sanitize_terraform_key(assignment_key)
 
-            # Wrap the sanitized key in **double quotes** for Terraform syntax
-            sid = f'"{sanitized_key}"'  # Ensure correct quoting
+            # Properly escape the key for Terraform import
+            sid = sanitized_key  # No additional double quotes needed inside brackets
 
             # Construct the resource ID
             resource_id = f'{assignment.get("InstanceArn", ssoInstanceArn)},{target_id},{assignment.get("TargetType", "AWS_ACCOUNT")},{assignment["PermissionSetName"]},{assignment["PrincipalType"]},{assignment["PrincipalId"]}'
 
-            # Ensure proper Terraform syntax (brackets and double quotes)
-            command = f'terraform import "aws_ssoadmin_account_assignment.assignment[{sid}]" {resource_id}'
+            # Generate Terraform import command with properly formatted key
+            command = f'terraform import aws_ssoadmin_account_assignment.assignment[{sid}] {resource_id}'
             commands.append(command)
 
     return commands
