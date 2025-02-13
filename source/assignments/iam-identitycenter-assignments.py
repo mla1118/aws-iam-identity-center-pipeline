@@ -391,29 +391,24 @@ def generate_import_commands(assignments):
             log.warning(f"Skipping invalid assignment (missing fields): {assignment}")
             continue
 
-        # Ensure Target is processed correctly
         for target in assignment["Target"]:  # Handle multiple targets
             if ":" in target:
-                target_id = target.split(":")[-1]  # Extract Account ID from "accountName:accountID"
+                target_id = target.split(":")[-1]  # Extract AWS Account ID
             else:
                 log.warning(f"Skipping invalid Target format: {target}")
                 continue
 
-            # Construct a key to match against existing assignments
-            assignment_key = f"{target_id}:{assignment['PrincipalId']}:{assignment['PermissionSetName']}"
-
-            # Skip if assignment already exists
-            if assignment_key in existing_assignments:
-                log.info(f"Skipping already existing assignment: {assignment_key}")
-                continue  
-
-            # Sanitize the key for Terraform
+            # Construct a key for Terraform indexing
+            assignment_key = f'{target_id}_{assignment["PrincipalId"]}_{assignment["PermissionSetName"]}'
             sanitized_key = sanitize_terraform_key(assignment_key)
+
+            # Ensure key is wrapped in double quotes for Terraform import syntax
             sid = f'"{sanitized_key}"'
 
-            # Correct resource ID format
+            # Construct the resource ID
             resource_id = f'{assignment.get("InstanceArn", ssoInstanceArn)},{target_id},{assignment.get("TargetType", "AWS_ACCOUNT")},{assignment["PermissionSetName"]},{assignment["PrincipalType"]},{assignment["PrincipalId"]}'
 
+            # Ensure correct syntax
             command = f'terraform import aws_ssoadmin_account_assignment.assignment[{sid}] {resource_id}'
             commands.append(command)
 
