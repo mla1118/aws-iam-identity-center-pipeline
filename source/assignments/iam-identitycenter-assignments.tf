@@ -14,14 +14,24 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
+provider "aws" {
+  region = "us-west-2"  # Adjust this based on your setup
+}
+
 data "aws_region" "current" {}
 data "aws_ssoadmin_instances" "sso" {}
 
 terraform {
   required_providers {
-    aws = {}
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
   }
   backend "s3" {
+    bucket  = var.terraform_state_bucket  # Ensure this variable is defined
+    key     = "terraform/iam-identitycenter-assignments.tfstate"
+    encrypt = true
   }
 }
 
@@ -30,11 +40,11 @@ locals {
 }
 
 resource "aws_ssoadmin_account_assignment" "assignment" {
-  for_each = {for t in local.assignment_file : t.Sid => t}
-  instance_arn = tolist(data.aws_ssoadmin_instances.sso.arns)[0]
-  permission_set_arn = "${each.value.PermissionSetName}"
-  principal_id       = "${each.value.PrincipalId}"
-  principal_type     = "${each.value.PrincipalType}"
-  target_id          = "${each.value.Target}"
-  target_type = "AWS_ACCOUNT"
+  for_each           = { for t in local.assignment_file : t.Sid => t }
+  instance_arn       = tolist(data.aws_ssoadmin_instances.sso.arns)[0]
+  permission_set_arn = each.value.PermissionSetArn  # Ensure the JSON file contains the ARN
+  principal_id       = each.value.PrincipalId
+  principal_type     = each.value.PrincipalType
+  target_id          = each.value.Target  # Ensure this is a single account ID
+  target_type        = "AWS_ACCOUNT"
 }
