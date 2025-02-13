@@ -398,22 +398,21 @@ def generate_import_commands(assignments):
                 log.warning(f"Skipping invalid Target format: {target}")
                 continue
 
-            # Construct a key for Terraform indexing
+            # Construct a valid HCL key (Terraform requires double quotes)
             assignment_key = f'{target_id}_{assignment["PrincipalId"]}_{assignment["PermissionSetName"]}'
             sanitized_key = sanitize_terraform_key(assignment_key)
 
-            # Ensure key is wrapped in double quotes for Terraform import syntax
-            sid = f'"{sanitized_key}"'
+            # Wrap the sanitized key in **double quotes** for Terraform syntax
+            sid = f'"{sanitized_key}"'  # Ensure correct quoting
 
             # Construct the resource ID
             resource_id = f'{assignment.get("InstanceArn", ssoInstanceArn)},{target_id},{assignment.get("TargetType", "AWS_ACCOUNT")},{assignment["PermissionSetName"]},{assignment["PrincipalType"]},{assignment["PrincipalId"]}'
 
-            # Ensure correct syntax
-            command = f'terraform import aws_ssoadmin_account_assignment.assignment[{sid}] {resource_id}'
+            # Ensure proper Terraform syntax (brackets and double quotes)
+            command = f'terraform import "aws_ssoadmin_account_assignment.assignment[{sid}]" {resource_id}'
             commands.append(command)
 
     return commands
-
 def is_already_imported(sid):
     """Check if an assignment is already imported in Terraform state."""
     try:
