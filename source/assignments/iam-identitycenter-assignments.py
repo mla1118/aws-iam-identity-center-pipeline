@@ -537,12 +537,18 @@ def main():
 
     # Ensure Terraform is initialized before applying
     print("Initializing Terraform backend...")
+    backend_config = [
+        "-backend-config=bucket=iam-idc-100935367087-tf-state",
+        "-backend-config=key=terraform/iam-identitycenter-assignments.tfstate",
+        "-backend-config=region=us-west-2",
+        "-backend-config=encrypt=true"
+    ]
+
     try:
-        subprocess.run("terraform init -reconfigure", shell=True, check=True)
+        subprocess.run(["terraform", "init", "-reconfigure"] + backend_config, check=True)
     except subprocess.CalledProcessError as e:
         log.error(f"Terraform initialization failed: {e}")
         return  # Stop execution if Terraform init fails
-
     # Apply Terraform changes after updating state
     print("Applying Terraform changes...")
     try:
