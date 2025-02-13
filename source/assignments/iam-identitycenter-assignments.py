@@ -397,12 +397,12 @@ def generate_import_commands(assignments):
                 log.warning(f"Skipping invalid Target format: {target}")
                 continue
 
-            # Generate a Terraform-compatible index key
-            assignment_key = f"{target_id}_{assignment['PrincipalId']}_{assignment['PermissionSetName']}"
+            # Generate a Terraform-compatible index key (properly quoted)
+            assignment_key = f'{target_id}_{assignment["PrincipalId"]}_{assignment["PermissionSetName"]}'
             sanitized_key = sanitize_terraform_key(assignment_key)
 
-            # Properly escape the key for Terraform import
-            sid = sanitized_key  # No additional double quotes needed inside brackets
+            # Properly escape the key for Terraform import (add quotes inside brackets)
+            sid = f'"{sanitized_key}"'
 
             # Construct the resource ID
             resource_id = f'{assignment.get("InstanceArn", ssoInstanceArn)},{target_id},{assignment.get("TargetType", "AWS_ACCOUNT")},{assignment["PermissionSetName"]},{assignment["PrincipalType"]},{assignment["PrincipalId"]}'
