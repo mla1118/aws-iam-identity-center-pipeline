@@ -380,28 +380,34 @@ def sanitize_terraform_key(value):
 
 
 def generate_import_commands(assignments):
-    """Generate Terraform import commands for existing assignments."""
+    """Generate Terraform import commands only for new assignments (skip existing ones)."""
     commands = []
 
+    # Fetch existing assignments from AWS
     existing_assignments = get_existing_assignments()
-    
+
     for assignment in assignments:
-        # First, build the key string separately
-        assignment_key = f"{assignment['TargetId']}-{assignment['PrincipalId']}-{assignment['PermissionSetArn']}"
-        # Skip assignment if it already exists
+        # Check if expected keys exist
+        if not all(key in assignment for key in ["Target", "PrincipalId", "PermissionSetName"]):
+            log.warning(f"Skipping invalid assignment (missing fields): {assignment}")
+            continue
+
+        # Generate a unique assignment key
+        assignment_key = f"{assignment['Target']}-{assignment['PrincipalId']}-{assignment['PermissionSetName']}"
+
+        # Skip assignment if it already exists in AWS
         if assignment_key in existing_assignments:
             log.info(f"Skipping already existing assignment: {assignment_key}")
-            continue 
-        # Then sanitize it for Terraform
-        sanitized_key = sanitize_terraform_key(assignment_key)
+            continue  
 
-        # Wrap the sanitized key in double quotes for Terraform
+        # Sanitize key for Terraform import
+        sanitized_key = sanitize_terraform_key(assignment_key)
         sid = f'"{sanitized_key}"'
-        
-        # Correct the Terraform import format (no unnecessary single quotes)
-        resource_id = f'{assignment["InstanceArn"]},{assignment["TargetId"]},{assignment["TargetType"]},{assignment["PermissionSetArn"]},{assignment["PrincipalType"]},{assignment["PrincipalId"]}'
+
+        # Ensure correct keys are used
+        resource_id = f'{assignment.get("InstanceArn", "")},{assignment["Target"]},{assignment.get("TargetType", "AWS_ACCOUNT")},{assignment["PermissionSetName"]},{assignment["PrincipalType"]},{assignment["PrincipalId"]}'
+
         command = f'terraform import aws_ssoadmin_account_assignment.assignment[{sid}] {resource_id}'
-        
         commands.append(command)
 
     return commands
