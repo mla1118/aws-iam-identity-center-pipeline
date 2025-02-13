@@ -387,61 +387,75 @@ def generate_import_commands(assignments):
     existing_assignments = get_existing_assignments()
 
     for assignment in assignments:
-        # Check if required keys exist in assignment
-        required_keys = ["Target", "PrincipalId", "PermissionSetName", "PrincipalType"]
+        # Ensure required fields exist
+        required_keys = ["Target", "PrincipalId", "PermissionSetArn", "PrincipalType"]
         if not all(key in assignment for key in required_keys):
             log.warning(f"Skipping invalid assignment (missing fields): {assignment}")
             continue
 
-        # Generate a consistent assignment key
-        assignment_key = f"{assignment['Target']}:{assignment['PrincipalId']}:{assignment['PermissionSetName']}"
+        # Validate Target is an AWS Account ID (12-digit numeric)
+        if not re.match(r"^\d{12}$", assignment["Target"]):
+            log.warning(f"Skipping invalid Target (not an AWS account ID): {assignment['Target']}")
+            continue
 
-        # Compare properly with existing assignments from AWS
-        if any(
-            existing['TargetId'] == assignment["Target"]
-            and existing['PrincipalId'] == assignment["PrincipalId"]
-            and existing['PermissionSetArn'] == assignment["PermissionSetName"]
-            for existing in existing_assignments.values()
-        ):
-            log.info(f"Skipping already existing assignment: {assignment_key}")
+        # Construct a key to match against existing assignments
+        assignment_key = f"{assignment['Target']}:{assignment['PrincipalId']}:{assignment['PermissionSetArn']}"
+
+        # Compare properly with AWS state and Terraform state
+        if assignment_key in existing_assignments:
+            log.info(f"Skipping already existing assignment in AWS: {assignment_key}")
             continue  
 
-        # Sanitize key for Terraform import
+        # Sanitize the key for Terraform
         sanitized_key = sanitize_terraform_key(assignment_key)
         sid = f'"{sanitized_key}"'
 
         # Ensure correct resource ID format
-        resource_id = f'{assignment.get("InstanceArn", ssoInstanceArn)},{assignment["Target"]},{assignment.get("TargetType", "AWS_ACCOUNT")},{assignment["PermissionSetName"]},{assignment["PrincipalType"]},{assignment["PrincipalId"]}'
+        resource_id = f'{assignment.get("InstanceArn", ssoInstanceArn)},{assignment["Target"]},{assignment.get("TargetType", "AWS_ACCOUNT")},{assignment["PermissionSetArn"]},{assignment["PrincipalType"]},{assignment["PrincipalId"]}'
 
         command = f'terraform import aws_ssoadmin_account_assignment.assignment[{sid}] {resource_id}'
         commands.append(command)
 
     return commands
 
+
 def is_already_imported(sid):
-    """Check if an assignment is already imported in Terraform."""
-    result = subprocess.run(
-        f'terraform state list | grep "aws_ssoadmin_account_assignment.assignment[{sid}]"',
-        shell=True,
-        capture_output=True,
-        text=True
-    )
-    return sid in result.stdout
+    """Check if an assignment is already imported in Terraform state."""
+    try:
+        result = subprocess.run(
+            f'terraform state list | grep -F "aws_ssoadmin_account_assignment.assignment[{sid}]"',
+            shell=True,
+            capture_output=True,
+            text=True
+        )
+        return sid in result.stdout.strip()
+    except Exception as error:
+        log.error(f"Error checking Terraform state: {error}")
+        return False
 
 def run_imports(commands):
     """Run Terraform import commands only if they haven't been imported."""
     for command in commands:
-        # ✅ Extract sid correctly from the command format
-        sid_start = command.find('assignment[') + len('assignment[')
-        sid_end = command.find(']', sid_start)
-        sid = command[sid_start:sid_end]
+        # Extract SID from the Terraform command format
+        match = re.search(r'assignment\["(.+?)"\]', command)
+        if not match:
+            log.warning(f"Skipping malformed import command: {command}")
+            continue
+        
+        sid = match.group(1)
 
+        # Skip if already imported
         if is_already_imported(sid):
-            print(f"Skipping already imported assignment: {sid}")
+            log.info(f"Skipping already imported assignment: {sid}")
             continue
 
-        print(f"Executing: {command}")
-        subprocess.run(command, shell=True)
+        # Execute Terraform import
+        log.info(f"Executing Terraform import: {command}")
+        subprocess.run(command, shell=True, check=True)
+
+    # Refresh Terraform state after imports
+    log.info("Refreshing Terraform state after imports...")
+    subprocess.run("terraform refresh", shell=True, check=True)
   
 
 # gets a list of all permission sets ARNs
@@ -461,8 +475,7 @@ def main():
     print("#######################################")
     print("# Starting AWS SSO Assignments Script #")
     print("#######################################\n")
-    
-    # Put arguments in a global variable to be used latter on in the code
+
     global ssoInstanceArn
     global permissionSetsArn
     global identitystore
@@ -482,24 +495,22 @@ def main():
     permissionSetsArn = get_current_permissionset_list()
 
     repositoryAssignments = load_assignments_from_file()
-    commands = generate_import_commands(list(repositoryAssignments["Assignments"]))
+    commands = generate_import_commands(repositoryAssignments["Assignments"])
 
     if commands:
         print("\nImporting existing SSO assignments into Terraform...\n")
         run_imports(commands)
         print("\nAll existing assignments have been imported into Terraform.")
+        
+        # Refresh Terraform state to reflect AWS
+        print("Refreshing Terraform state before applying changes...")
+        subprocess.run("terraform refresh", shell=True, check=True)
     else:
         print("\nNo existing assignments found to import.")
-    
-    create_assignment_file(repositoryAssignments) 
 
-    seen = []
-    for eachSID in resolvedAssingmnets['Assignments']:
-        if eachSID not in seen:
-            seen.append(eachSID)
+    # Apply Terraform changes after updating state
+    print("Applying Terraform changes...")
+    subprocess.run("terraform apply -auto-approve", shell=True, check=True)
 
-    with open('assignments.json', 'w') as convert_file:
-        convert_file.write(json.dumps(seen))
-    
-    log.info('Association file created.')
+    log.info('Terraform apply completed successfully.')
 main()
