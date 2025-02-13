@@ -29,9 +29,6 @@ terraform {
     }
   }
   backend "s3" {
-    bucket  = var.terraform_state_bucket  # Ensure this variable is defined
-    key     = "terraform/iam-identitycenter-assignments.tfstate"
-    encrypt = true
   }
 }
 
