@@ -382,42 +382,42 @@ def sanitize_terraform_key(value):
 def generate_import_commands(assignments):
     """Generate Terraform import commands only for new assignments (skip existing ones)."""
     commands = []
-
-    # Fetch existing assignments from AWS
     existing_assignments = get_existing_assignments()
 
     for assignment in assignments:
         # Ensure required fields exist
-        required_keys = ["Target", "PrincipalId", "PermissionSetArn", "PrincipalType"]
+        required_keys = ["Target", "PrincipalId", "PermissionSetName", "PrincipalType"]
         if not all(key in assignment for key in required_keys):
             log.warning(f"Skipping invalid assignment (missing fields): {assignment}")
             continue
 
-        # Validate Target is an AWS Account ID (12-digit numeric)
-        if not re.match(r"^\d{12}$", assignment["Target"]):
-            log.warning(f"Skipping invalid Target (not an AWS account ID): {assignment['Target']}")
-            continue
+        # Ensure Target is processed correctly
+        for target in assignment["Target"]:  # Handle multiple targets
+            if ":" in target:
+                target_id = target.split(":")[-1]  # Extract Account ID from "accountName:accountID"
+            else:
+                log.warning(f"Skipping invalid Target format: {target}")
+                continue
 
-        # Construct a key to match against existing assignments
-        assignment_key = f"{assignment['Target']}:{assignment['PrincipalId']}:{assignment['PermissionSetArn']}"
+            # Construct a key to match against existing assignments
+            assignment_key = f"{target_id}:{assignment['PrincipalId']}:{assignment['PermissionSetName']}"
 
-        # Compare properly with AWS state and Terraform state
-        if assignment_key in existing_assignments:
-            log.info(f"Skipping already existing assignment in AWS: {assignment_key}")
-            continue  
+            # Skip if assignment already exists
+            if assignment_key in existing_assignments:
+                log.info(f"Skipping already existing assignment: {assignment_key}")
+                continue  
 
-        # Sanitize the key for Terraform
-        sanitized_key = sanitize_terraform_key(assignment_key)
-        sid = f'"{sanitized_key}"'
+            # Sanitize the key for Terraform
+            sanitized_key = sanitize_terraform_key(assignment_key)
+            sid = f'"{sanitized_key}"'
 
-        # Ensure correct resource ID format
-        resource_id = f'{assignment.get("InstanceArn", ssoInstanceArn)},{assignment["Target"]},{assignment.get("TargetType", "AWS_ACCOUNT")},{assignment["PermissionSetArn"]},{assignment["PrincipalType"]},{assignment["PrincipalId"]}'
+            # Correct resource ID format
+            resource_id = f'{assignment.get("InstanceArn", ssoInstanceArn)},{target_id},{assignment.get("TargetType", "AWS_ACCOUNT")},{assignment["PermissionSetName"]},{assignment["PrincipalType"]},{assignment["PrincipalId"]}'
 
-        command = f'terraform import aws_ssoadmin_account_assignment.assignment[{sid}] {resource_id}'
-        commands.append(command)
+            command = f'terraform import aws_ssoadmin_account_assignment.assignment[{sid}] {resource_id}'
+            commands.append(command)
 
     return commands
-
 
 def is_already_imported(sid):
     """Check if an assignment is already imported in Terraform state."""
@@ -501,16 +501,23 @@ def main():
         print("\nImporting existing SSO assignments into Terraform...\n")
         run_imports(commands)
         print("\nAll existing assignments have been imported into Terraform.")
-        
-        # Refresh Terraform state to reflect AWS
-        print("Refreshing Terraform state before applying changes...")
-        subprocess.run("terraform refresh", shell=True, check=True)
+
     else:
         print("\nNo existing assignments found to import.")
 
+    # Ensure Terraform is initialized before applying
+    print("Initializing Terraform backend...")
+    try:
+        subprocess.run("terraform init -reconfigure", shell=True, check=True)
+    except subprocess.CalledProcessError as e:
+        log.error(f"Terraform initialization failed: {e}")
+        return  # Stop execution if Terraform init fails
+
     # Apply Terraform changes after updating state
     print("Applying Terraform changes...")
-    subprocess.run("terraform apply -auto-approve", shell=True, check=True)
-
-    log.info('Terraform apply completed successfully.')
+    try:
+        subprocess.run("terraform apply -auto-approve", shell=True, check=True)
+        log.info('Terraform apply completed successfully.')
+    except subprocess.CalledProcessError as e:
+        log.error(f"Terraform apply failed: {e}")
 main()
