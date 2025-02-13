@@ -319,9 +319,7 @@ def getPermissionSetArn(permission_set_name):
     print(f"{permission_set_name} not found")
     return False
 
-def sanitize_terraform_key(value):
-    """Replace special characters to make Terraform-compatible keys."""
-    return re.sub(r'[^a-zA-Z0-9_-]', '_', value)  # Replace invalid characters with underscores
+
 
 def createGroup(group_name, group_description):
     '''
@@ -374,6 +372,10 @@ def get_existing_assignments():
     
     return assignments
 
+def sanitize_terraform_key(value):
+    """Replace special characters to make Terraform-compatible keys."""
+    return re.sub(r'[^a-zA-Z0-9_-]', '_', value)  # Replace invalid characters with underscores
+
 def generate_import_commands(assignments):
     """Generate Terraform import commands for existing assignments."""
     commands = []
@@ -382,14 +384,16 @@ def generate_import_commands(assignments):
         # First, build the key string separately
         assignment_key = f"{assignment['TargetId']}-{assignment['PrincipalId']}-{assignment['PermissionSetArn']}"
 
-        # Then sanitize it
+        # Then sanitize it for Terraform
         sanitized_key = sanitize_terraform_key(assignment_key)
 
-        # Finally, wrap it correctly in double quotes for Terraform
+        # Wrap the sanitized key in double quotes for Terraform
         sid = f'"{sanitized_key}"'
         
+        # Correct the Terraform import format (no unnecessary single quotes)
         resource_id = f'{assignment["InstanceArn"]},{assignment["TargetId"]},{assignment["TargetType"]},{assignment["PermissionSetArn"]},{assignment["PrincipalType"]},{assignment["PrincipalId"]}'
         command = f'terraform import aws_ssoadmin_account_assignment.assignment[{sid}] {resource_id}'
+        
         commands.append(command)
 
     return commands
@@ -397,7 +401,7 @@ def generate_import_commands(assignments):
 def is_already_imported(sid):
     """Check if an assignment is already imported in Terraform."""
     result = subprocess.run(
-        f"terraform state list | grep aws_ssoadmin_account_assignment.assignment[\"{sid}\"]",
+        f'terraform state list | grep "aws_ssoadmin_account_assignment.assignment[{sid}]"',
         shell=True,
         capture_output=True,
         text=True
@@ -407,10 +411,15 @@ def is_already_imported(sid):
 def run_imports(commands):
     """Run Terraform import commands only if they haven't been imported."""
     for command in commands:
-        sid = command.split('assignment["')[1].split('"]')[0]  # Extract the assignment SID
+        # ✅ Extract sid correctly from the command format
+        sid_start = command.find('assignment[') + len('assignment[')
+        sid_end = command.find(']', sid_start)
+        sid = command[sid_start:sid_end]
+
         if is_already_imported(sid):
             print(f"Skipping already imported assignment: {sid}")
             continue
+
         print(f"Executing: {command}")
         subprocess.run(command, shell=True)
   
