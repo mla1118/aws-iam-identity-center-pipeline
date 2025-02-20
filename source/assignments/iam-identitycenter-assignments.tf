@@ -29,6 +29,10 @@ terraform {
     }
   }
   backend "s3" {
+    bucket         = "iam-idc-100935367087-tf-state"
+    key            = "terraform/iam-identitycenter-assignments.tfstate"
+    region         = "us-west-2"
+    encrypt        = true
   }
 }
 
