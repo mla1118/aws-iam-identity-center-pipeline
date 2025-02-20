@@ -246,31 +246,37 @@ def create_assignment_file(repositoryAssignments):
     log.info('Creating assignment file')
     
     try:
-        for assignment in repositoryAssignments['Assignments']:
+        assignments_data = {"Assignments": []}
+
+        for assignment in repositoryAssignments["Assignments"]:
             accounts = resolve_targets(assignment)
-            principalId = getGroupId(assignment['PrincipalId'])
+            principalId = getGroupId(assignment["PrincipalId"])
             if principalId is None:
                 description = f"Allows users access to {accounts} with {assignment['PermissionSetName']} permissions"
-                principalId = createGroup(assignment['PrincipalId'], description)
+                principalId = createGroup(assignment["PrincipalId"], description)
 
-            
             for eachAccount in accounts:
                 if eachAccount != managementAccount:
-                    ps_arn = getPermissionSetArn(assignment['PermissionSetName'])
-                    resolvedAssingmnets['Assignments'].append(
-                        {
-                            "Sid": str(eachAccount)+str(assignment['PrincipalId'])+str(assignment['PrincipalType'])+str(assignment['PermissionSetName']),
-                            "PrincipalId": principalId,
-                            "PrincipalType": assignment['PrincipalType'],
-                            "PermissionSetName": ps_arn,
-                            "Target": eachAccount
-                        }
-                    )                
+                    ps_arn = getPermissionSetArn(assignment["PermissionSetName"])
+                    assignments_data["Assignments"].append({
+                        "Sid": f"{eachAccount}_{assignment['PrincipalId']}_{assignment['PrincipalType']}_{assignment['PermissionSetName']}",
+                        "PrincipalId": principalId,
+                        "PrincipalType": assignment["PrincipalType"],
+                        "PermissionSetName": ps_arn,
+                        "Target": eachAccount
+                    })
+
+        # ** Write assignments to `assignments.json`**
+        with open("assignments.json", "w") as f:
+            json.dump(assignments_data, f, indent=4)
+
+        log.info("assignments.json file successfully created.")
         return True
+
     except Exception as error:
-        log.error("Error: " + str(error))
+        log.error("Error creating assignments.json: " + str(error))
         log.error(traceback.format_exc())
-        exit (1)
+        exit(1)
 
 def getPermissionSetName(permission_set_arn):
     '''
@@ -287,34 +293,26 @@ def getPermissionSetName(permission_set_arn):
     # return only the name from the recieved response
     return response['PermissionSet']['Name']
 
+# Cache permission set ARNs to prevent redundant lookups
+PERMISSION_SET_CACHE = {}
+
 def getPermissionSetArn(permission_set_name):
-    '''
-    This function gets the permission set ARN 
-    Arguments:
-    permission_set_name - name of permission set to find
+    """Retrieve Permission Set ARN with caching."""
+    if permission_set_name in PERMISSION_SET_CACHE:
+        return PERMISSION_SET_CACHE[permission_set_name]
 
-    Returns:
-    - permission set ARN
-
-    If permission set is not found, then this function will print "<>
-    '''
-    # get list of all permission sets
+    log.info(f"Looking for the ARN for {permission_set_name}...")
     permission_set_arns = listPermissionSets()
-    # be tranparent with user
-    print(f"Looking for the ARN for {permission_set_name}...")
-    # loop through permission set list 
+    
     for arn in permission_set_arns:
-        # get the name of the current permission set in list
         ps_name = getPermissionSetName(arn)
-        # check if this is the permission set to find
         if ps_name == permission_set_name:
-            # if so, print the ARN to the console for user
-            print(f"{permission_set_name} ARN: {arn}")
-            # return the found ARN
+            log.info(f"{permission_set_name} ARN: {arn}")
+            PERMISSION_SET_CACHE[permission_set_name] = arn  # Cache result
             return arn
-    # if permission set name given is not found in the list, tell user
-    print(f"{permission_set_name} not found")
-    return False
+
+    log.warning(f"{permission_set_name} not found")
+    return None
 
 def createGroup(group_name, group_description):
     '''
@@ -402,13 +400,13 @@ def generate_import_commands(assignments):
             assignment_key = f'{target_id}_{assignment["PrincipalId"]}_{assignment["PermissionSetName"]}'
             sanitized_key = sanitize_terraform_key(assignment_key)
 
-            # Properly escape the key for Terraform import
-            sid = f'\\"{sanitized_key}\\"'  # Add extra escape for Terraform compatibility
+            # 🔹 **Fix the escaping issue**
+            sid = f'"{sanitized_key}"'  # Remove unnecessary escape characters
 
             # Construct the resource ID
             resource_id = f'{ssoInstanceArn},{target_id},AWS_ACCOUNT,{ps_arn},{assignment["PrincipalType"]},{assignment["PrincipalId"]}'
 
-            # Generate Terraform import command
+            # 🔹 **Fix the Terraform import command format**
             command = f'terraform import aws_ssoadmin_account_assignment.assignment[{sid}] "{resource_id}"'
             commands.append(command)
 
