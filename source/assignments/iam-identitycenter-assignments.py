@@ -369,8 +369,10 @@ def get_existing_assignments():
     return assignments
 
 def sanitize_terraform_key(value):
-    """Replace special characters to make Terraform-compatible keys."""
-    return re.sub(r'[^a-zA-Z0-9_-]', '_', value)  # Replace invalid characters with underscores
+    """Ensure Terraform-compatible keys by replacing special characters safely."""
+    value = re.sub(r'[^a-zA-Z0-9_-]', '_', value)  # Replace invalid characters with underscores
+    value = value.replace('"', '').replace("'", '')  # Remove problematic quotes
+    return value
 
 def generate_import_commands(assignments):
     """Generate Terraform import commands only for new assignments (skip existing ones)."""
@@ -401,13 +403,13 @@ def generate_import_commands(assignments):
             sanitized_key = sanitize_terraform_key(assignment_key)
 
             # Properly escape the key for Terraform import
-            sid = f'"{sanitized_key}"'
+            sid = f'\\"{sanitized_key}\\"'  # Add extra escape for Terraform compatibility
 
             # Construct the resource ID
             resource_id = f'{ssoInstanceArn},{target_id},AWS_ACCOUNT,{ps_arn},{assignment["PrincipalType"]},{assignment["PrincipalId"]}'
 
             # Generate Terraform import command
-            command = f'terraform import aws_ssoadmin_account_assignment.assignment[{sid}] {resource_id}'
+            command = f'terraform import aws_ssoadmin_account_assignment.assignment[{sid}] "{resource_id}"'
             commands.append(command)
 
     return commands
@@ -416,12 +418,12 @@ def is_already_imported(sid):
     """Check if an assignment is already imported in Terraform state."""
     try:
         result = subprocess.run(
-            f'terraform state list | grep -F "aws_ssoadmin_account_assignment.assignment[{sid}]"',
+            f'terraform state list | grep -F aws_ssoadmin_account_assignment.assignment[{sid}]',
             shell=True,
             capture_output=True,
             text=True
         )
-        return sid in result.stdout.strip()
+        return sid.strip() in result.stdout.strip()
     except Exception as error:
         log.error(f"Error checking Terraform state: {error}")
         return False
@@ -442,7 +444,7 @@ def run_imports(commands):
         if not match:
             log.warning(f"Skipping malformed import command: {command}")
             continue
-        
+         
         sid = match.group(1)
 
         # Skip if already imported
